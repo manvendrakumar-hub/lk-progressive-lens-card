@@ -199,7 +199,7 @@
   }
   function ensureVisible(card) {
     if (!card) return;
-    const tr = track.getBoundingClientRect(), cr = card.getBoundingClientRect(), pad = 28;
+    const tr = track.getBoundingClientRect(), cr = card.getBoundingClientRect(), pad = 12;
     let d = 0;
     if (cr.left < tr.left + pad) d = cr.left - tr.left - pad;
     else if (cr.right > tr.right - pad) d = cr.right - tr.right + pad;
@@ -212,6 +212,7 @@
   function initCarousel() {
     const setVw = () => track.style.setProperty('--vw', track.clientWidth + 'px');
     setVw();
+    if (window.ResizeObserver) new ResizeObserver(() => { setVw(); updateEdges(); }).observe(track);
     addEventListener('resize', () => { setVw(); updateEdges(); });
     track.addEventListener('scroll', updateEdges, { passive: true });
     $('#prevBtn').addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * 0.72, behavior: 'smooth' }));
