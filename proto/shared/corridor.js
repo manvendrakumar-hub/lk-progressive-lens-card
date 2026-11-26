@@ -119,6 +119,9 @@
     const ro = new ResizeObserver(layout); ro.observe(el);
     const io = new IntersectionObserver((e) => { st.visible = e[0].isIntersecting; }, { rootMargin: '120px' }); io.observe(el);
     setScene(opts.scene);
+    requestAnimationFrame(layout);
+    addEventListener('load', layout, { once: true });
+    addEventListener('orientationchange', () => setTimeout(layout, 120));
     live.add(api);
     return api;
   }

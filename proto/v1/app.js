@@ -188,7 +188,8 @@
 
   /* ---------- carousel ---------- */
   const track = $('#track');
-  function maxScroll() { return track.scrollWidth - track.clientWidth; }
+  const isPaged = () => matchMedia('(min-width:901px) and (min-aspect-ratio:1/1)').matches;
+  function maxScroll() { return Math.max(0, track.scrollWidth - track.clientWidth); }
   function updateEdges() {
     const s = track.scrollLeft, m = maxScroll();
     track.classList.toggle('can-left', s > 4);
@@ -199,6 +200,13 @@
   }
   function ensureVisible(card) {
     if (!card) return;
+    if (isPaged()) {
+      const target = card.closest('.grp')?.dataset.g === 'special' ? maxScroll() : 0;
+      if (Math.abs(track.scrollLeft - target) > 4) {
+        track.scrollTo({ left: target, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+      return;
+    }
     const tr = track.getBoundingClientRect(), cr = card.getBoundingClientRect(), pad = 12;
     let d = 0;
     if (cr.left < tr.left + pad) d = cr.left - tr.left - pad;
@@ -206,6 +214,7 @@
     if (d) track.scrollBy({ left: d, behavior: reduceMotion ? 'auto' : 'smooth' });
   }
   function cardStops() {
+    if (isPaged()) return [0, maxScroll()];
     const tr = track.getBoundingClientRect();
     return $$('.card', track).map((c) => c.getBoundingClientRect().left - tr.left + track.scrollLeft - 16);
   }
@@ -215,8 +224,8 @@
     if (window.ResizeObserver) new ResizeObserver(() => { setVw(); updateEdges(); }).observe(track);
     addEventListener('resize', () => { setVw(); updateEdges(); });
     track.addEventListener('scroll', updateEdges, { passive: true });
-    $('#prevBtn').addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * 0.72, behavior: 'smooth' }));
-    $('#nextBtn').addEventListener('click', () => track.scrollBy({ left: track.clientWidth * 0.72, behavior: 'smooth' }));
+    $('#prevBtn').addEventListener('click', () => track.scrollTo({ left: isPaged() ? 0 : Math.max(0, track.scrollLeft - track.clientWidth * 0.72), behavior: reduceMotion ? 'auto' : 'smooth' }));
+    $('#nextBtn').addEventListener('click', () => track.scrollTo({ left: isPaged() ? maxScroll() : Math.min(maxScroll(), track.scrollLeft + track.clientWidth * 0.72), behavior: reduceMotion ? 'auto' : 'smooth' }));
 
     let suppress = false;
     track.addEventListener('click', (e) => {
@@ -227,7 +236,7 @@
       if (hit) select(hit.parentElement.dataset.id, { scroll: true });
     }, true);
 
-    // mouse drag (touch uses native momentum scrolling)
+    // mouse drag (touch uses native momentum scrolling + CSS scroll-snap)
     let drag = null;
     track.addEventListener('pointerdown', (e) => {
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
@@ -248,9 +257,16 @@
       const d = drag; drag = null;
       if (!d.moved) return;
       suppress = true; setTimeout(() => (suppress = false), 60);
-      const stops = cardStops();
-      const proj = track.scrollLeft - d.v * 260;
-      const target = Math.max(0, Math.min(maxScroll(), stops.reduce((b, s) => (Math.abs(s - proj) < Math.abs(b - proj) ? s : b), stops[0])));
+      let target;
+      if (isPaged()) {
+        const dx = track.scrollLeft - d.left;
+        const goP2 = Math.abs(d.v) > 0.25 ? d.v < 0 : (track.scrollLeft > maxScroll() * 0.5 || dx > 60 && d.left < maxScroll() * 0.5);
+        target = goP2 ? maxScroll() : 0;
+      } else {
+        const stops = cardStops();
+        const proj = track.scrollLeft - d.v * 260;
+        target = Math.max(0, Math.min(maxScroll(), stops.reduce((b, s) => (Math.abs(s - proj) < Math.abs(b - proj) ? s : b), stops[0])));
+      }
       track.scrollTo({ left: target, behavior: reduceMotion ? 'auto' : 'smooth' });
       let done = false;
       const fin = () => { if (done) return; done = true; track.classList.remove('dragging'); };
@@ -260,11 +276,16 @@
     addEventListener('pointerup', end);
     addEventListener('pointercancel', end);
 
-    // vertical wheel -> horizontal on desktop
+    // vertical wheel -> paged / horizontal snap on desktop
     track.addEventListener('wheel', (e) => {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && !e.ctrlKey && matchMedia('(min-width:901px)').matches) {
         e.preventDefault();
-        track.scrollLeft += e.deltaY;
+        if (isPaged()) {
+          if (e.deltaY > 8) track.scrollTo({ left: maxScroll(), behavior: reduceMotion ? 'auto' : 'smooth' });
+          else if (e.deltaY < -8) track.scrollTo({ left: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        } else {
+          track.scrollLeft += e.deltaY;
+        }
       }
     }, { passive: false });
     updateEdges();
@@ -444,7 +465,72 @@
       else if (e.key === 'Home' && !(t && t.closest && t.closest('.cmp-scroll'))) { e.preventDefault(); select(lenses[0].id); }
       else if (e.key === 'End') { e.preventDefault(); select(lenses[lenses.length - 1].id); }
       else if ((e.key === 'c' || e.key === 'C') && !cmpOpen) { openCmp(document.activeElement); }
+      else if ((e.key === 'f' || e.key === 'F') && !cmpOpen) { const fb = $('#fsBtn'); if (fb) fb.click(); }
     });
+  }
+
+  /* ---------- fullscreen + swipe ---------- */
+  function initFs() {
+    const btn = $('#fsBtn');
+    if (!btn) return;
+    const inFrame = window.parent !== window;
+    const setUi = (on) => {
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.title = on ? 'Exit full screen' : 'Full screen';
+      btn.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+      requestAnimationFrame(() => {
+        track.style.setProperty('--vw', track.clientWidth + 'px');
+        updateEdges();
+      });
+    };
+    btn.addEventListener('click', () => {
+      if (inFrame) {
+        try { window.parent.postMessage({ type: 'lk-fs-toggle' }, '*'); } catch (e) {}
+      } else {
+        const el = document.documentElement;
+        const active = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        try {
+          if (!active) {
+            const req = el.requestFullscreen || el.webkitRequestFullscreen;
+            if (req) Promise.resolve(req.call(el)).catch(() => {});
+          } else {
+            const ex = document.exitFullscreen || document.webkitExitFullscreen;
+            if (ex) Promise.resolve(ex.call(document)).catch(() => {});
+          }
+        } catch (e) {}
+      }
+    });
+    if (inFrame) {
+      addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'lk-fs-state') setUi(!!e.data.active);
+      });
+      try { window.parent.postMessage({ type: 'lk-fs-query' }, '*'); } catch (e) {}
+    } else {
+      const sync = () => setUi(!!(document.fullscreenElement || document.webkitFullscreenElement));
+      document.addEventListener('fullscreenchange', sync);
+      document.addEventListener('webkitfullscreenchange', sync);
+    }
+  }
+
+  function onSwipe(el, onLeft, onRight) {
+    if (!el) return;
+    let x0 = null, y0 = null;
+    el.addEventListener('touchstart', (e) => {
+      if (!e.touches || e.touches.length !== 1) { x0 = null; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+    }, { passive: true });
+    el.addEventListener('touchend', (e) => {
+      if (x0 === null || !e.changedTouches || !e.changedTouches.length) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+        if (dx < 0) onLeft(); else onRight();
+      }
+    }, { passive: true });
+  }
+  function initSwipe() {
+    onSwipe($('.hero'), () => step(1), () => step(-1));
+    onSwipe($('#lb'), () => stepLb(1), () => stepLb(-1));
   }
 
   /* ---------- boot ---------- */
@@ -454,6 +540,8 @@
   initHero();
   initCarousel();
   initLb();
+  initFs();
+  initSwipe();
   initEvents();
   select(state.id, { scroll: false });
   // make sure the default lens is on screen on first paint
