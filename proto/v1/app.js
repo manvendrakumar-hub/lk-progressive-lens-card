@@ -8,7 +8,8 @@
   const lenses = LK.lenses, features = LK.features;
   const maxX = Math.max.apply(null, lenses.map((l) => l.x));
   const SCENES = ['road_day', 'street_day', 'desk_day', 'road_day', 'street_day', 'desk_day', 'road_day', 'street_day'];
-  const DEFAULT_ID = 'l5';
+  const qLens = new URLSearchParams(location.search).get('lens');
+  const DEFAULT_ID = (qLens && LK.byId(qLens)) ? qLens : 'l5';
   const plainAddon = (n) => '+₹' + n;
   const lensName = (l) => `${l.brand} ${l.name}`;
   const clipSrc = (c) => '../' + c.src;
@@ -198,12 +199,12 @@
     p.setAttribute('aria-disabled', s <= 4 ? 'true' : 'false');
     n.setAttribute('aria-disabled', s >= m - 4 ? 'true' : 'false');
   }
-  function ensureVisible(card) {
+  function ensureVisible(card, instant) {
     if (!card) return;
     if (isPaged()) {
       const target = card.closest('.grp')?.dataset.g === 'special' ? maxScroll() : 0;
       if (Math.abs(track.scrollLeft - target) > 4) {
-        track.scrollTo({ left: target, behavior: reduceMotion ? 'auto' : 'smooth' });
+        track.scrollTo({ left: target, behavior: (reduceMotion || instant) ? 'auto' : 'smooth' });
       }
       return;
     }
@@ -211,7 +212,7 @@
     let d = 0;
     if (cr.left < tr.left + pad) d = cr.left - tr.left - pad;
     else if (cr.right > tr.right - pad) d = cr.right - tr.right + pad;
-    if (d) track.scrollBy({ left: d, behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (d) track.scrollBy({ left: d, behavior: (reduceMotion || instant) ? 'auto' : 'smooth' });
   }
   function cardStops() {
     if (isPaged()) return [0, maxScroll()];
@@ -545,7 +546,7 @@
   initEvents();
   select(state.id, { scroll: false });
   // make sure the default lens is on screen on first paint
-  requestAnimationFrame(() => requestAnimationFrame(() => { ensureVisible($(`.card[data-id="${state.id}"]`)); updateEdges(); }));
+  requestAnimationFrame(() => requestAnimationFrame(() => { ensureVisible($(`.card[data-id="${state.id}"]`), true); updateEdges(); }));
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(updateEdges);
   window.__v1 = { select, state, openCmp, closeCmp, tiles: () => tiles, hero: () => hero };
 })();

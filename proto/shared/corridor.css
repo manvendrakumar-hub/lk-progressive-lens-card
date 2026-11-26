@@ -10,11 +10,12 @@
 .cx-outline{fill:none;stroke:#ff5e48;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:7 6;vector-effect:non-scaling-stroke;animation:cx-dash 1.4s linear infinite}
 .cx-outline-glow{fill:rgba(255,255,255,.10);stroke:none}
 @keyframes cx-dash{to{stroke-dashoffset:-26}}
-.cx-arrow{position:absolute;left:50%;top:50%;height:16px;pointer-events:none;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;animation:cx-wig 2.6s ease-in-out infinite}
-.cx-arrow i{display:block;height:2px;width:100%;background:rgba(255,255,255,.92);border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,66,.18)}
-.cx-arrow::before,.cx-arrow::after{content:"";position:absolute;top:50%;width:9px;height:9px;border-top:2px solid #fff;border-left:2px solid #fff;filter:drop-shadow(0 0 1px rgba(0,0,66,.45))}
-.cx-arrow::before{left:1px;transform:translateY(-50%) rotate(-45deg)}
-.cx-arrow::after{right:1px;transform:translateY(-50%) rotate(135deg)}
-@keyframes cx-wig{0%,100%{transform:translate(-50%,-50%) scaleX(1)}35%{transform:translate(-50%,-50%) scaleX(1.07)}70%{transform:translate(-50%,-50%) scaleX(.94)}}
+.cx-arrow{position:absolute;left:0;right:0;top:50%;height:18px;margin-top:-9px;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.cx-bar{position:relative;height:100%;display:flex;align-items:center;justify-content:center;transform-origin:center center;animation:cx-wig 2.6s ease-in-out infinite}
+.cx-bar i{display:block;height:2px;width:100%;background:rgba(255,255,255,.94);border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,66,.18)}
+.cx-bar::before,.cx-bar::after{content:"";position:absolute;top:50%;width:8px;height:8px;border-top:2px solid #fff;border-left:2px solid #fff;filter:drop-shadow(0 0 1px rgba(0,0,66,.45))}
+.cx-bar::before{left:1px;transform:translateY(-50%) rotate(-45deg)}
+.cx-bar::after{right:1px;transform:translateY(-50%) rotate(135deg)}
+@keyframes cx-wig{0%,100%{transform:scaleX(1)}35%{transform:scaleX(1.03)}70%{transform:scaleX(.96)}}
 .cx-chip{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);padding:4px 10px;border-radius:999px;font:700 11px/1 "Lenskart Sans",system-ui,sans-serif;letter-spacing:.02em;color:#000042;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);white-space:nowrap;pointer-events:none}
-@media (prefers-reduced-motion:reduce){.cx-outline,.cx-arrow{animation:none}}
+@media (prefers-reduced-motion:reduce){.cx-outline,.cx-bar{animation:none}}

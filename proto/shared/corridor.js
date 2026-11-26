@@ -56,7 +56,7 @@
       `<div class="cx-layer cx-l-mid"><img class="cx-img" alt="" draggable="false" decoding="async"></div>` +
       `<div class="cx-layer cx-l-sharp"><img class="cx-img" alt="" draggable="false" decoding="async"></div>` +
       (opts.guide
-        ? `<svg class="cx-guide" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="cx-outline-glow"/><path class="cx-outline"/></svg><div class="cx-arrow" aria-hidden="true"><i></i></div>`
+        ? `<svg class="cx-guide" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="cx-outline-glow"/><path class="cx-outline"/></svg><div class="cx-arrow" aria-hidden="true"><span class="cx-bar"><i></i></span></div>`
         : '') +
       (opts.chip ? `<div class="cx-chip"></div>` : '');
     el.style.setProperty('--cx-clip-sharp', `url(#cxs-${id})`);
@@ -65,7 +65,7 @@
     const imgs = el.querySelectorAll('.cx-img');
     const pS = el.querySelector(`#cxs-${id} path`), pM = el.querySelector(`#cxm-${id} path`);
     const gGlow = el.querySelector('.cx-outline-glow'), gLine = el.querySelector('.cx-outline');
-    const arrow = el.querySelector('.cx-arrow'), chip = el.querySelector('.cx-chip');
+    const arrow = el.querySelector('.cx-bar'), chip = el.querySelector('.cx-chip');
 
     const st = { x: opts.x, w: widthFor(opts.x), target: widthFor(opts.x), scene: opts.scene, pan: opts.pan && !reduce,
                  t: Math.random() * 20, A: 0, W: 0, H: 0, visible: true, panPx: 0 };
@@ -92,23 +92,26 @@
       const dS = pathD(w), dM = pathD(Math.min(0.5, w * 1.5 + 0.035));
       pS.setAttribute('d', dS); pM.setAttribute('d', dM);
       if (gLine) { const d = scaled(dS); gLine.setAttribute('d', d); gGlow.setAttribute('d', d); }
-      if (arrow && st.W) arrow.style.width = Math.max(26, 2 * w * st.W * 0.86) + 'px';
+      if (arrow && st.W) {
+        const waistPx = 2 * w * st.W;
+        const pad = Math.min(14, Math.max(4, waistPx * 0.14));
+        arrow.style.width = Math.max(8, waistPx - pad).toFixed(1) + 'px';
+      }
     }
     function label() { if (chip) chip.textContent = typeof opts.chip === 'string' ? opts.chip : `Sharp zone · ${st.x}X`; }
     label();
 
     const api = {
       el, opts,
-      setX(x) { st.x = x; st.target = widthFor(x); label(); if (reduce) { st.w = st.target; paintShape(); } },
+      setX(x) { st.x = x; st.target = widthFor(x); label(); if (!st.W) layout(); if (reduce) { st.w = st.target; paintShape(); } },
       setScene, setPan(on) { st.pan = !!on && !reduce; if (!st.pan) el.style.setProperty('--cx-pan', '0px'); },
       destroy() { live.delete(api); io.disconnect(); ro.disconnect(); el.innerHTML = ''; el.classList.remove('cx'); },
       _tick(dt) {
-        if (!st.visible) return;
         if (Math.abs(st.target - st.w) > 0.0003) {
           st.w += (st.target - st.w) * (1 - Math.exp(-dt * 6.5));
           paintShape();
         }
-        if (st.pan && st.A) {
+        if (st.visible && st.pan && st.A) {
           st.t += dt;
           const p = Math.sin((st.t / 9) * Math.PI * 2) * 0.82 + Math.sin((st.t / 3.7) * Math.PI * 2 + 1.3) * 0.18;
           st.panPx = p * st.A;
@@ -117,7 +120,11 @@
       },
     };
     const ro = new ResizeObserver(layout); ro.observe(el);
-    const io = new IntersectionObserver((e) => { st.visible = e[0].isIntersecting; }, { rootMargin: '120px' }); io.observe(el);
+    const io = new IntersectionObserver((e) => {
+      const en = e[0];
+      st.visible = en.isIntersecting || en.boundingClientRect.width === 0;
+    }, { rootMargin: '120px' });
+    io.observe(el);
     setScene(opts.scene);
     requestAnimationFrame(layout);
     addEventListener('load', layout, { once: true });
