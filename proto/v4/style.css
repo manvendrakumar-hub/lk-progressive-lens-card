@@ -1,0 +1,281 @@
+/* V4 price card: faithful 1080x810 Figma frame (node 1334:15910) with one sideways scroll */
+
+@font-face{font-family:"Lenskart Sans";font-weight:400;font-style:normal;font-display:swap;src:url("../assets/fonts/LenskartSans-Regular.woff2") format("woff2")}
+@font-face{font-family:"Lenskart Sans";font-weight:500;font-style:normal;font-display:swap;src:url("../assets/fonts/LenskartSans-Medium.woff2") format("woff2")}
+@font-face{font-family:"Lenskart Sans";font-weight:700;font-style:normal;font-display:swap;src:url("../assets/fonts/LenskartSans-Bold.woff2") format("woff2")}
+@font-face{font-family:"Lenskart Sans";font-weight:900;font-style:normal;font-display:swap;src:url("../assets/fonts/LenskartSans-Black.woff2") format("woff2")}
+@font-face{font-family:"Lenskart Serif";font-weight:400;font-style:normal;font-display:swap;src:url("../assets/fonts/LenskartSerif-Normal.woff2") format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:500;font-style:normal;font-display:swap;src:url("../assets/fonts/PlusJakartaSans-Medium.woff2") format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:600;font-style:normal;font-display:swap;src:url("../assets/fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:700;font-style:normal;font-display:swap;src:url("../assets/fonts/PlusJakartaSans-Bold.woff2") format("woff2")}
+
+:root{
+  --navy:#000042;
+  --navy-l1:#333368;
+  --navy-l2:#66668e;
+  --lilac:#f0f0f6;
+  --teal:#00906f;
+  --teal-d2:#0a8367;
+  --mint:#0eae8a;
+  --blue:#2261d1;
+  --red:#ff5e48;
+  --japan-red:#ec2227;
+  --page:#faE5da;
+  --side:#f6e9e2;
+  --row:#fff4ee;
+  --row-mint:#f3fffb;
+  --head:#fffdfc;
+  --bar:#231f20;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --s:1;
+  --k:1;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#fff}
+body{
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  color:var(--navy);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overscroll-behavior:none;
+}
+img{display:block;max-width:none}
+::selection{background:rgba(14,174,138,.22);color:var(--navy)}
+.topbar ::selection,.topbar::selection{background:rgba(224,198,124,.35);color:#fff}
+button{font:inherit;color:inherit}
+
+.viewport{position:fixed;inset:0;overflow:hidden}
+
+/* ---------- stage: fixed 1080x810 artboard, scaled to fit ---------- */
+.stage{
+  position:absolute;left:50%;top:50%;
+  width:1080px;height:810px;
+  margin:-405px 0 0 -540px;
+  transform:scale(var(--s));
+  transform-origin:50% 50%;
+  background:var(--page);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 1px 2px rgba(0,0,66,.06),0 12px 40px -8px rgba(0,0,66,.14);
+  isolation:isolate;
+}
+.stage > *{position:absolute}
+
+/* ---------- header (Figma y 24..118; status bar area is filled dark) ---------- */
+.topbar{left:0;top:0;width:1080px;height:118px;background:var(--bar);box-shadow:0 1px 4px rgba(0,0,66,.08);z-index:5;color:#fff}
+.topbar > *{position:absolute}
+.topbar__logo{left:32px;top:50px}
+.topbar__title{left:32px;top:67px;width:212px;font:400 20px/normal "Lenskart Serif",Georgia,serif;color:#fff;white-space:nowrap}
+.topbar__gold{left:776px;top:55.2px}
+.topbar__rule{left:893px;top:52px}
+.topbar__offer{
+  left:907px;top:54px;width:85px;
+  font:600 12px/18px "Lenskart Sans","Plus Jakarta Sans",sans-serif;
+  color:#fff;white-space:nowrap;
+}
+.topbar__offer span{letter-spacing:1.44px}
+
+/* ---------- side panel (fixed) ---------- */
+.side{left:0;top:118px;width:281px;height:692px;background:var(--side);z-index:3}
+.side > *{position:absolute}
+.side__intro{left:32px;top:13px;width:96px;display:flex;flex-direction:column;gap:2px;font-feature-settings:"case" 1}
+.side__h{font:700 12px/16px "Plus Jakarta Sans";color:var(--navy);white-space:nowrap}
+.side__sub{font:700 10px/12px "Plus Jakarta Sans";color:var(--navy-l2);white-space:nowrap}
+
+.zones{left:32px;top:54px;width:228px;height:92px}
+.zones > *{position:absolute}
+.zones__lens{left:0;top:-.22px}
+.zones__n{
+  width:12px;height:12px;border-radius:6px;background:var(--navy);color:#fff;
+  font:700 8.571px/12px "Plus Jakarta Sans";text-align:center;font-feature-settings:"case" 1;
+  padding-left:.4px;
+}
+.zones__n--1{left:52px;top:14px}
+.zones__n--2{left:53.02px;top:41.07px}
+.zones__n--3{left:53.02px;top:67.29px}
+.zones__dots{left:67px;width:68px;height:1px}
+.zones__dots--1{top:19px}
+.zones__dots--2{top:46px}
+.zones__dots--3{top:73px}
+.zones__l{left:138px;font:500 10px/12px "Plus Jakarta Sans";color:var(--navy);white-space:nowrap;font-feature-settings:"case" 1}
+.zones__l--1{top:13px}
+.zones__l--2{top:40px}
+.zones__l--3{top:67px}
+
+.b1g1{
+  left:41px;top:176px;width:102px;height:45px;
+  border:.56px solid rgba(224,198,124,.55);border-radius:8.961px;
+  background-image:linear-gradient(116.99deg,rgba(224,198,124,.1) 2.24%,rgba(255,255,255,.2) 96.18%);
+  -webkit-backdrop-filter:blur(4.481px);backdrop-filter:blur(4.481px);
+}
+.b1g1__in{position:absolute;left:8.4px;top:7.94px;width:84.08px;font-family:"Noto Sans","Plus Jakarta Sans",sans-serif;font-size:10.081px;line-height:14px;color:#000}
+.b1g1__l1,.b1g1__l2{display:flex;align-items:center;height:14px;white-space:nowrap}
+.b1g1__l1 b,.b1g1__l2 b{font-weight:600;word-spacing:.12em}
+.b1g1__l1 span{font-weight:500;color:#080808;margin-left:.3em}
+.b1g1__l2 img{margin-right:3.36px;margin-top:-.3px}
+
+.feat{left:32px;top:270px;width:249px;list-style:none}
+.feat__row{
+  position:relative;width:249px;height:24px;margin-bottom:22px;
+  display:flex;align-items:center;gap:10px;
+}
+.feat__row::after{content:"";position:absolute;left:0;top:35px;width:249px;height:1px;background:rgba(255,255,255,.8)}
+.feat__row:last-child{margin-bottom:0}
+.feat__row:last-child::after{display:none}
+.feat__row img{flex:none;width:24px;height:24px}
+.feat__row span{font:500 12px/16px "Plus Jakarta Sans";color:var(--navy);white-space:nowrap;font-feature-settings:"case" 1}
+
+.legend{left:42px;top:662px;display:flex;gap:18px;align-items:center;height:10px;font:500 8px/normal "Lenskart Sans","Plus Jakarta Sans",sans-serif;color:var(--navy)}
+.legend__i{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.legend__i img{width:10px;height:7.143px}
+.legend__i img + img{margin-left:-0px}
+
+/* ---------- footer facts (fixed) ---------- */
+.foot{left:0;top:0;width:1080px;height:810px;pointer-events:none;z-index:4}
+.foot p{position:absolute;font:700 8px/normal "Lenskart Sans","Plus Jakarta Sans",sans-serif;white-space:nowrap;display:flex;align-items:center}
+.foot__fit{left:475px;top:777px;height:14px;width:130px;color:var(--navy)}
+.foot__code{left:968px;top:779px;height:10px;width:70px;justify-content:flex-end;color:#9e9e9e}
+
+/* ---------- card rail ---------- */
+.rail{left:281px;top:124px;width:779px;height:652px;z-index:2}
+.scroller{
+  position:absolute;inset:0;
+  overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;
+  scroll-snap-type:x mandatory;
+  scroll-padding-left:20px;
+  overscroll-behavior-x:contain;
+  touch-action:pan-x pan-y;
+  cursor:grab;
+  user-select:none;-webkit-user-select:none;
+  --fl:0px;--fr:36px;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);
+  outline:none;
+}
+.scroller::-webkit-scrollbar{display:none}
+.scroller.is-free{scroll-snap-type:none}
+.scroller.is-dragging{cursor:grabbing}
+.scroller:focus-visible{box-shadow:inset 0 0 0 2px rgba(34,97,209,.45);border-radius:10px}
+.track{will-change:transform;display:flex;gap:20px;padding:16px 20px 34px;width:max-content;height:100%}
+
+.card{
+  position:relative;flex:none;width:150px;height:602px;
+  background:var(--row);border-radius:10px;
+  scroll-snap-align:start;
+  transition:transform .22s var(--ease-out),box-shadow .22s var(--ease-out);
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.card > *{position:absolute}
+.card--mint{background:var(--row-mint)}
+.card--tagged{border-radius:5px 5px 10px 10px}
+.card--tagged .card__head{border-radius:5px 5px 0 0}
+.card__head{left:0;top:0;width:150px;height:232px;background:var(--head);border-radius:10px 10px 0 0}
+.card__band{left:0;top:232px;width:150px;height:370px;border-radius:0 0 10px 10px;background:#fff;opacity:0;transition:opacity .22s var(--ease-out)}
+.card__lines{left:0;top:282px;width:150px;height:277px;background-image:repeating-linear-gradient(to bottom,rgba(255,255,255,.8) 0 1px,transparent 1px 46px)}
+
+.card__tag{
+  left:0;top:-9px;width:150px;height:14px;border:1px solid var(--blue);background:var(--blue);
+  border-radius:20px 20px 0 0;overflow:hidden;color:#fff;z-index:2;
+}
+.card__tag--green{background:var(--mint);border-color:var(--mint)}
+.card__tag span{
+  position:absolute;left:0;top:0;width:100%;line-height:12px;height:12px;text-align:center;
+  font:italic 700 7px/12px "Plus Jakarta Sans";letter-spacing:-.2px;white-space:nowrap;
+}
+
+.card__name{
+  left:0;top:0;width:150px;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:4px;
+  text-align:center;white-space:nowrap;font-feature-settings:"case" 1;
+}
+.card--jp .card__name{top:2px}
+.card__name .n{font:700 10px/12px "Plus Jakarta Sans";color:var(--navy);display:flex;flex-direction:column;align-items:center}
+.card--jp .card__name .n{font:900 9px/12px "Lenskart Sans","Plus Jakarta Sans",sans-serif}
+.card__name .n i{font-style:normal}
+.card__name .v{font:700 10px/12px "Plus Jakarta Sans";color:var(--teal-d2)}
+.c-blue{color:var(--blue)}
+.c-jp{color:var(--japan-red)}
+.flag{display:inline-block;width:10.5px;height:7.5px;vertical-align:-.5px;margin:0 .15em;border-radius:1px;overflow:hidden}
+.flag svg{display:block;width:100%;height:100%}
+
+.strip{
+  left:0;top:52px;width:150px;height:90px;overflow:hidden;
+  background:#d9cfc6 center/cover no-repeat;
+}
+.strip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;-webkit-user-drag:none}
+.card--s3 .strip{top:51.5px}
+
+.card__info{left:43px;top:150px;width:65px;display:flex;flex-direction:column;align-items:center;gap:11px}
+.chip{
+  width:65px;height:17px;border-radius:12px;background:var(--lilac);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font:700 7px/1 "Lenskart Sans","Plus Jakarta Sans",sans-serif;letter-spacing:.28px;white-space:nowrap;
+}
+.chip--mint{background:var(--mint);color:#fff}
+.card__index{height:6px;font:700 8px/6px "Lenskart Sans","Plus Jakarta Sans",sans-serif;color:var(--navy-l2);text-align:center;white-space:nowrap;text-transform:capitalize;margin-top:0}
+.price{display:flex;align-items:flex-start;gap:1px;height:23px;margin-top:0}
+.price img{margin-top:0}
+.price b{padding-top:1.5px;font:700 18px/23px "Lenskart Sans","Plus Jakarta Sans",sans-serif;color:var(--teal);white-space:nowrap}
+
+.freebar{left:0;top:226px;width:150px;height:11px;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font:900 6px/1 "Lenskart Sans","Plus Jakarta Sans",sans-serif;white-space:nowrap;padding-bottom:0}
+
+.tick{position:absolute;left:68px;width:14px;height:10px}
+.tick2{position:absolute;left:57px;width:36px;height:10px}
+.t-r0{top:254px}.t-r1{top:300px}.t-r2{top:346px}.t-r3{top:392px}
+.t-r4{top:436px}.t-r4b{top:438px}.t-r5{top:482px}.t-r6{top:528px}
+.fast{left:0;top:253px;width:150px;height:10px;text-align:center;font:700 10px/10px "Lenskart Sans","Plus Jakarta Sans",sans-serif;color:var(--navy-l1);white-space:nowrap}
+.night{left:48px;top:316px;width:55px;height:10px;border-radius:19.2px;background:var(--mint);color:#fff;display:flex;align-items:center;justify-content:center;font:700 6px/1 "Lenskart Sans","Plus Jakarta Sans",sans-serif;white-space:nowrap}
+
+.addon{left:0;top:572px;width:150px;height:16px;display:flex;align-items:center;justify-content:center;color:var(--teal);white-space:nowrap}
+.addon i{font:400 18px/14px "Lenskart Sans","Plus Jakarta Sans",sans-serif;font-style:normal;width:9px;height:14px;margin-right:2px;text-align:center}
+.addon b{font:700 12px/15px "Lenskart Sans","Plus Jakarta Sans",sans-serif}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* hover and selected: gentle lift, subtle row highlight */
+@media (hover:hover) and (pointer:fine){
+  .card:hover{transform:translateY(-3px)}
+}
+.card:active{transform:translateY(-1px) scale(.988);transition-duration:.12s}
+.card.is-selected{
+  transform:translateY(-7px);
+  box-shadow:0 16px 28px -14px rgba(0,0,66,.22),0 0 0 1.5px rgba(14,174,138,.38);
+}
+.card.is-selected .card__band{opacity:.34}
+.card:focus-visible{box-shadow:0 0 0 2px rgba(34,97,209,.55)}
+
+/* ---------- edge arrows ---------- */
+.nav{
+  position:absolute;top:calc(313px - 17px*var(--k));width:calc(34px*var(--k));height:calc(34px*var(--k));border-radius:50%;
+  border:1px solid rgba(0,0,66,.1);background:rgba(255,255,255,.94);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 4px 14px -4px rgba(0,0,66,.25);
+  transition:opacity .2s var(--ease-out),transform .16s var(--ease-out),background .15s;
+  z-index:3;
+}
+.nav[hidden]{display:flex;opacity:0;pointer-events:none}
+.nav svg{width:calc(18px*var(--k));height:calc(18px*var(--k))}
+.nav--prev{left:calc(8px*var(--k))}
+.nav--next{right:calc(8px*var(--k))}
+.nav--prev[hidden]{transform:translateX(-6px)}
+.nav--next[hidden]{transform:translateX(6px)}
+.nav:hover{background:#fff}
+.nav:active{transform:scale(.95)}
+.nav:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){
+  .card,.nav,.card__band{transition:none}
+  .card:hover,.card:active,.card.is-selected{transform:none}
+  .track{transition:none!important}
+}
+
+/* download GIF button on every strip */
+.gifdl{position:absolute;right:5px;bottom:5px;z-index:3;display:inline-flex;align-items:center;gap:3px;height:18px;padding:0 6px 0 5px;border-radius:9px;
+  background:rgba(255,255,255,.94);color:#000042;text-decoration:none;font:800 8px/1 "Plus Jakarta Sans",sans-serif;letter-spacing:.04em;
+  box-shadow:0 1px 3px rgba(0,0,40,.3);cursor:pointer;transition:transform .18s cubic-bezier(.2,.8,.2,1),background .18s,color .18s}
+.gifdl:hover{background:#000042;color:#fff}
+.gifdl:active{transform:scale(.94)}
+.gifdl:focus-visible{outline:2px solid #0eae8a;outline-offset:2px}
+@media (pointer:coarse){.gifdl{height:24px;padding:0 9px 0 8px;font-size:9px;border-radius:12px}}

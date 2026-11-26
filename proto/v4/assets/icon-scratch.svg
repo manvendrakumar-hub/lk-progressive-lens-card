@@ -1,0 +1,36 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Price Card">
+<g id="Side Panel">
+<g id="Lens Features">
+<g id="Frame 2147238363">
+<g id="2" clip-path="url(#clip0_1331_12502)">
+<g id="Group 1437258946">
+<path id="Vector 1720" d="M5.08996 3.82598C-0.468649 5.34197 0.150911 10.7722 1.0819 13.9776C3.92411 23.7683 15.4663 21.591 17.7232 20.5651C21.1973 18.986 23.7239 13.301 22.8744 7.66098C22.1307 2.72297 12.0382 1.931 5.08996 3.82598Z" fill="white" fill-opacity="0.2"/>
+<g id="Group 1437258690">
+<path id="Vector 1718" d="M0.470337 13.7431C3.32833 23.327 14.9347 21.1957 17.204 20.1915C20.6975 18.6457 23.2381 13.0809 22.3839 7.55998C21.7848 3.68791 15.1534 2.42013 8.9471 3.02245" stroke="#333368" stroke-width="0.88421" stroke-linecap="round"/>
+</g>
+<path id="Vector" d="M5.27034 4.7998L0.470337 9.5998M0.470337 4.7998L5.27034 9.5998" stroke="#333368" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector 1729" d="M7.19043 19.1999L18.2304 8.63989" stroke="url(#paint0_linear_1331_12502)" stroke-width="0.96" stroke-linecap="round"/>
+<path id="Vector 1730" d="M11.7895 18.5305L20.833 9.30956" stroke="url(#paint1_linear_1331_12502)" stroke-width="0.96" stroke-linecap="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1331_12502" x1="17.2704" y1="9.11989" x2="7.19043" y2="18.7199" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0"/>
+<stop offset="0.524038" stop-color="#333368"/>
+<stop offset="1" stop-color="#6565CE" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_1331_12502" x1="20.0243" y1="9.75349" x2="12.3041" y2="18.6085" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0"/>
+<stop offset="0.524038" stop-color="#333368"/>
+<stop offset="1" stop-color="#6565CE" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_1331_12502">
+<rect width="24" height="24" fill="white" transform="matrix(0 1 -1 0 24 0)"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Progressive Lenses Price Card</title>
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Progressive Lenses Price Card">
+<meta property="og:description" content="Swipe from front to back. Interactive Lenskart progressive lenses price card.">
+<meta property="og:image" content="https://manvendrakumar-hub.github.io/lk-progressive-lens-card/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Crect width='8' height='8' rx='2' fill='%23231F20'/%3E%3C/svg%3E">
+<meta name="description" content="Lenskart progressive lenses price card — slide from front to back.">
+<style>
+@font-face{font-family:"Lenskart Sans";font-weight:400;font-style:normal;src:url(assets/fonts/LenskartSans-Regular.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Lenskart Sans";font-weight:500;font-style:normal;src:url(assets/fonts/LenskartSans-Medium.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Lenskart Sans";font-weight:600;font-style:normal;src:url(assets/fonts/LenskartSans-Medium.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Lenskart Sans";font-weight:700;font-style:normal;src:url(assets/fonts/LenskartSans-Bold.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Lenskart Sans";font-weight:900;font-style:normal;src:url(assets/fonts/LenskartSans-Black.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Lenskart Serif";font-weight:400;font-style:normal;src:url(assets/fonts/LenskartSerif-Normal.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:500;font-style:normal;src:url(assets/fonts/PlusJakartaSans-Medium.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:600;font-style:normal;src:url(assets/fonts/PlusJakartaSans-SemiBold.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:700;font-style:normal;src:url(assets/fonts/PlusJakartaSans-Bold.woff2) format("woff2");font-display:block}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#fff;-webkit-text-size-adjust:100%}
+body{min-height:100%;overflow:hidden;color:#000042;font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:#fff}
+img{-webkit-user-drag:none;user-select:none}
+
+/* ---------- viewer chrome (outside the card) ---------- */
+.viewer{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none;cursor:grab}
+html.dragging .viewer{cursor:grabbing}
+.fit{position:relative;flex:none;width:calc(595px*var(--s,1));height:calc(842px*var(--s,1));box-shadow:0 18px 50px -18px rgba(0,0,40,.28),0 0 0 1px rgba(0,0,66,.08)}
+.fit:has(.card:focus-visible){outline:2px solid #2261d1;outline-offset:4px}
+.ctrl{display:flex;flex-direction:column;align-items:center;gap:10px;flex:none}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;width:184px;padding:3px;border-radius:999px;background:#f1eff3}
+.seg button{position:relative;z-index:1;appearance:none;border:0;background:none;color:#66668e;font:600 13px/1 "Plus Jakarta Sans",system-ui,sans-serif;padding:9px 0;border-radius:999px;cursor:pointer;transition:color .25s}
+.seg button[aria-selected=true]{color:#fff}
+.seg button:focus-visible{outline:2px solid #2261d1;outline-offset:2px}
+.thumb{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:#000042;will-change:transform}
+.hint{display:flex;align-items:center;gap:8px;font:500 12px/1 "Plus Jakarta Sans",system-ui,sans-serif;color:#8a8aa6;transition:opacity .4s}
+.hint.off{opacity:0}
+.arr{width:14px;height:8px;position:relative;display:block;animation:nudge 1.8s cubic-bezier(.4,0,.2,1) infinite}
+.arr::before{content:"";position:absolute;left:0;right:1px;top:3.5px;height:1px;background:currentColor}
+.arr::after{content:"";position:absolute;right:1px;top:1px;width:5px;height:5px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:rotate(45deg)}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html.bare body{background:#fff}
+html.bare .ctrl{display:none}
+html.bare .viewer{align-items:flex-start;justify-content:flex-start;cursor:default}
+html.bare .fit{box-shadow:none}
+@media (prefers-reduced-motion:reduce){.arr{animation:none}}
+
+/* ---------- the card (595 x 842 design px) ---------- */
+.card{position:absolute;left:0;top:0;width:595px;height:842px;transform:scale(var(--s,1));transform-origin:0 0;background:#fae5da;overflow:hidden;outline:none;font-family:"Lenskart Sans",system-ui,sans-serif;color:#000042;font-synthesis:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:geometricPrecision}
+.card p,.card b,.card i{font-style:normal;font-weight:inherit}
+.abs{position:absolute}
+.fill{position:absolute;inset:0;width:100%;height:100%;max-width:none;display:block}
+.blk{display:block;width:100%;height:100%;max-width:none}
+.ins{position:absolute;display:block}
+.cover{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;pointer-events:none}
+.rc{display:flex;align-items:center;justify-content:center}
+.rin{flex:none;position:relative}
+
+.clip{position:absolute;left:105px;top:0;width:490px;height:842px;overflow:hidden}
+.track{position:absolute;left:-105px;top:0;width:1081px;height:842px;will-change:transform}
+.page{position:absolute;top:0;width:595px;height:842px}
+
+/* columns */
+.colbg{background:#fff4ee}
+.colbg.rec{border:1px solid #2261d1}
+.ov{background:rgba(255,255,255,.6)}
+.strip{background:#fff;overflow:hidden}
+.badge-t{transform:translate(-50%,-50%);font:900 10px/normal "Lenskart Sans";color:#fff;white-space:nowrap}
+.nm{display:flex;flex-direction:column;justify-content:center;font:700 9px/normal "Lenskart Sans";color:#000042;text-align:center;white-space:nowrap}
+.nm p{line-height:normal}
+.red{color:#ec2227}
+.gry{color:#9999b3}
+.flag{display:inline-block;vertical-align:-0.5px;margin:0 3px;border-radius:1px}
+.idx{display:flex;align-items:center;justify-content:center;overflow:hidden;border:.6px solid #fff;border-radius:30px;font:700 8px/normal "Lenskart Sans";color:#333368;white-space:nowrap}
+.price{display:flex;gap:1px;align-items:flex-start}
+.price .rs{position:relative;display:block;width:6.331px;height:7.9px;flex:none}
+.price .pn{display:flex;flex-direction:column;justify-content:center;height:14px;flex:none;font:700 20px/normal "Lenskart Sans";color:#00906f}
+.price .pn p{line-height:normal}
+.free{background:#ff5e48;overflow:hidden;display:flex;align-items:center;justify-content:center;font:900 6px/normal "Lenskart Sans";color:#fff;white-space:nowrap;font-feature-settings:"case" 1}
+.free p{transform:translate(-.5px,.5px)}
+.d100{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px;overflow:hidden}
+.d100-in{display:flex;align-items:center;justify-content:center;gap:3px;flex:none;width:67px;padding:2px 6px;border-radius:19.2px;background:#0eae8a}
+.d100-in.nd{width:55px;gap:0}
+.d100-t{display:flex;flex-direction:column;justify-content:center;flex:none;font:900 8px/normal "Lenskart Sans";color:#fff;white-space:nowrap}
+.d100-v{position:relative;display:block;width:0;height:9.5px;flex:none}
+.d100-i{position:relative;display:block;width:11.167px;height:8.832px;flex:none}
+.nd-t{flex:none;font:700 6px/normal "Lenskart Sans";color:#fff;white-space:nowrap}
+.val{display:flex;flex-direction:column;justify-content:center;font:700 9px/normal "Lenskart Sans";color:#000042;white-space:nowrap;text-align:center}
+.fa{display:flex;flex-direction:column;justify-content:center;font:700 10px/normal "Lenskart Sans";color:#333368;white-space:nowrap;text-align:center}
+.fa p{line-height:7.68px}
+.addbg{background:rgba(251,241,236,.8)}
+.plus{display:flex;flex-direction:column;justify-content:center;width:9px;font:400 18px/normal "Lenskart Sans";color:#00906f;white-space:nowrap}
+.addp{display:flex;flex-direction:column;justify-content:center;font:700 12px/normal "Lenskart Sans";color:#00906f;white-space:nowrap}
+.tag{background:#2261d1;border:1px solid #2261d1;border-radius:12px 12px 0 0}
+.tag-t{position:absolute;transform:translate(-50%,-50%);width:59px;height:6px;display:flex;flex-direction:column;justify-content:center;text-align:center;font:700 5.76px/normal "Plus Jakarta Sans";letter-spacing:.5px;color:#fff;font-feature-settings:"case" 1}
+.tag-t p{line-height:7.68px}
+.tag.up .tag-t{text-transform:uppercase}
+
+/* left rail (fixed) */
+#rows .ic{width:21px;height:25px;transform:rotate(90deg);overflow:hidden}
+#ic-corr,#ic-chev{position:absolute;inset:0}
+#ic-chev{opacity:0}
+.lb{font:600 10px/normal "Lenskart Sans";color:#000042}
+.lb p{line-height:normal;white-space:nowrap}
+.rate{font:400 12px/normal "Lenskart Sans";color:#00906f;white-space:nowrap;will-change:transform}
+.rate b{font-weight:900}
+.special{font:400 14px/normal "Lenskart Sans";color:#997415;opacity:0;will-change:transform,opacity}
+#shade{background:linear-gradient(90deg,rgba(110,48,22,.2),rgba(110,48,22,0));opacity:0;pointer-events:none}
+
+/* header */
+.hdr{position:absolute;left:0;top:0;width:595px;height:60px}
+.hl{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.lg{position:relative;width:80px;height:11px;flex:none}
+.ttl{font:400 20px/normal "Lenskart Serif";color:#fff;white-space:nowrap}
+.lock{display:flex;align-items:center;gap:14px;height:40px}
+.memb{display:flex;flex-direction:column;gap:8px;width:103px;flex:none}
+.gm{position:relative;width:102.8px;height:16.69px;flex:none}
+.gold{-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-composite:source-in;mask-composite:intersect}
+.mp{position:relative;width:100.34px;height:8.81px;flex:none}
+.vdiv{position:relative;width:0;height:40px;flex:none}
+.bogo{width:85px;flex:none;color:#fff;font:600 12px/18px "Lenskart Sans";white-space:pre}
+.b1{letter-spacing:1.44px}
+
+/* footer */
+.fn{display:flex;flex-direction:column;justify-content:center;font:700 8px/normal "Lenskart Sans";color:#000042;white-space:nowrap}
+.code{font:700 8px/normal "Lenskart Sans";color:#9e9e9e;white-space:nowrap}
+.warr{display:flex;align-items:center;gap:2px;padding:4px 6px;border-radius:20px;background:#fbefe8;font:500 8px/normal "Plus Jakarta Sans";color:#66668e;white-space:nowrap}
+.warr b{font-weight:700;color:#0a8367}
+.warr i{font-weight:600;color:#0a8367}
+.wi{position:relative;display:block;width:11.167px;height:8.832px;flex:none}
+
+/* ---------- header strip animation: outlines fade in, arrow grows + wiggles ---------- */
+.lw{position:absolute;inset:0}
+.strip{--d:calc(var(--i,1)*.14s)}
+.lw.l{animation:lensL 4.4s var(--d) ease-in-out infinite both}
+.lw.r{animation:lensR 4.4s var(--d) ease-in-out infinite both}
+.arw .ins{animation:arw 4.4s var(--d) ease-in-out infinite both;transform-origin:50% 50%}
+.badge-t{animation:pop 4.4s var(--d) ease-in-out infinite both}
+@keyframes lensL{0%{opacity:0;translate:14px 0}16%{opacity:1;translate:0 0}84%{opacity:1;translate:0 0}100%{opacity:0;translate:0 0}}
+@keyframes lensR{0%{opacity:0;translate:-14px 0}16%{opacity:1;translate:0 0}84%{opacity:1;translate:0 0}100%{opacity:0;translate:0 0}}
+@keyframes arw{0%,8%{scale:.25 1;opacity:0}22%{scale:1 1;opacity:1}30%{scale:1.1 1}38%{scale:.92 1}46%{scale:1.08 1}54%{scale:.96 1}62%,84%{scale:1 1;opacity:1}100%{scale:1 1;opacity:0}}
+@keyframes pop{0%,10%{opacity:.55}20%,84%{opacity:1}100%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.lw,.arw .ins,.badge-t{animation:none}}
+
+/* sharp-area reveal: photo is soft outside the corridor; the clear zone widens with the arrow */
+@property --w{syntax:"<length>";inherits:false;initial-value:0px}
+.bl{--w:0px;-webkit-backdrop-filter:blur(1.6px);backdrop-filter:blur(1.6px);
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(50% - var(--w)),transparent calc(50% - var(--w) + 6px),transparent calc(50% + var(--w) - 6px),#000 calc(50% + var(--w)));
+  mask-image:linear-gradient(90deg,#000 calc(50% - var(--w)),transparent calc(50% - var(--w) + 6px),transparent calc(50% + var(--w) - 6px),#000 calc(50% + var(--w)));
+  animation:clear 4.4s var(--d) ease-in-out infinite both}
+@keyframes clear{0%,8%{--w:0px}24%{--w:var(--hw)}30%{--w:calc(var(--hw)*1.1)}38%{--w:calc(var(--hw)*.92)}46%{--w:calc(var(--hw)*1.08)}54%{--w:calc(var(--hw)*.96)}62%,84%{--w:var(--hw)}100%{--w:0px}}
+@media (prefers-reduced-motion:reduce){.bl{animation:none;display:none}}
+
+</style>
+</head>
+<body>
+<main class="viewer" id="viewer">
+  <div class="fit" id="fit">
+    <div class="card" id="card" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Progressive lenses price card. Use left and right arrow keys, scroll or swipe to move between front and back.">
+      <div class="clip">
+        <div class="track" id="track">
+          <section class="page" style="left:0" aria-label="Front">
+<!-- FRONT : Figma 1194:1417 -->
+<div class="abs colbg" style="left:109px;top:75px;width:92px;height:671px"></div>
+<div class="abs colbg" style="left:205px;top:75px;width:92px;height:671px"></div>
+<div class="abs colbg" style="left:301px;top:75px;width:92px;height:671px"></div>
+<div class="abs colbg" style="left:397px;top:75px;width:92px;height:671px"></div>
+<div class="abs colbg rec" style="left:493px;top:75px;width:92px;height:671px"></div>
+<div class="abs ov" style="left:109px;top:75px;width:92px;height:180px"></div>
+<div class="abs ov" style="left:205px;top:75px;width:92px;height:180px"></div>
+<div class="abs ov" style="left:301px;top:75px;width:92px;height:180px"></div>
+<div class="abs ov" style="left:397px;top:76px;width:92px;height:179px"></div>
+<div class="abs ov" style="left:494px;top:75px;width:90px;height:180px"></div>
+<div class="abs tag rect" style="left:493px;top:64px;width:92px;height:11px;overflow:hidden"><div class="tag-t" style="left:calc(50% - 0.04px);top:4px"><p>RECOMMENDED</p></div></div>
+<div class="abs nm" style="left:155px;top:131px;height:37px;transform:translateX(-50%)"><p>Lenskart<br>Anti-Glare<br>Normal View</p></div>
+<div class="abs nm" style="left:252px;top:131px;height:37px;transform:translateX(-50%)"><p>Lenskart<br>BLU<br>Normal View</p></div>
+<div class="abs nm" style="left:347px;top:131px;height:37px;transform:translateX(-50%)"><p>Lenskart<br>BLU<br>Wide View</p></div>
+<div class="abs nm" style="left:443px;top:131px;height:37px;transform:translateX(-50%)"><p>Lenskart Premium<br>BLU Thin<br>Wider+ View</p></div>
+<div class="abs nm" style="left:540px;top:133px;height:33px;transform:translateX(-50%)"><p>Owndays <b class="red">Japan</b><br>iShield BLU Thin<br>Extra Wide View</p></div>
+<div class="abs idx" style="left:155px;top:180px;width:74px;height:16px;transform:translateX(-50%);background:#f0f0f5;padding:2px 3px"><p>1.56 index</p></div>
+<div class="abs idx" style="left:251px;top:180px;width:74px;height:16px;transform:translateX(-50%);background:#f0f0f5;padding:2px 3px"><p>1.56 index</p></div>
+<div class="abs idx" style="left:347px;top:180px;width:74px;height:16px;transform:translateX(-50%);background:#e2e2ec;padding:2px 3px"><p>Upto 1.6 index</p></div>
+<div class="abs idx" style="left:443px;top:180px;width:74px;height:16px;transform:translateX(-50%);background:#e2e2ec;padding:2px 3px"><p>Upto 1.67 index</p></div>
+<div class="abs idx" style="left:539px;top:180px;width:74px;height:16px;transform:translateX(-50%);background:#e2e2ec;padding:2px 3px"><p>Upto 1.67 index</p></div>
+<div class="abs price" style="left:154.67px;top:216px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/front/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:50px"><p>1600</p></span></div>
+<div class="abs price" style="left:251.17px;top:216px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/front/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:55px"><p>3000</p></span></div>
+<div class="abs price" style="left:347px;top:216px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/front/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:57px"><p>4600</p></span></div>
+<div class="abs price" style="left:442.66px;top:216px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/front/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:56px"><p>6600</p></span></div>
+<div class="abs price" style="left:539.17px;top:216px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/front/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:65px"><p>10600</p></span></div>
+<div class="abs d100" style="left:397px;top:247px;width:91px;height:16px"><div class="d100-in"><span class="d100-t">100 Days</span><span class="d100-v"><span class="ins" style="inset:0 -0.15px"><img class="blk" src="assets/front/imgVector1763.svg" alt="" draggable="false"></span></span><span class="d100-i"><span class="ins" style="inset:0 -3.75% -2.86% -3.75%"><img class="blk" src="assets/front/imgGroup1437258901.svg" alt="" draggable="false"></span></span></div></div>
+<div class="abs d100" style="left:494px;top:247px;width:91px;height:16px"><div class="d100-in"><span class="d100-t">100 Days</span><span class="d100-v"><span class="ins" style="inset:0 -0.15px"><img class="blk" src="assets/front/imgVector1763.svg" alt="" draggable="false"></span></span><span class="d100-i"><span class="ins" style="inset:0 -3.75% -2.86% -3.75%"><img class="blk" src="assets/front/imgGroup1437258901.svg" alt="" draggable="false"></span></span></div></div>
+<div class="abs val" style="left:155px;top:277px;height:11px;transform:translateX(-50%)"><p>1X</p></div>
+<div class="abs val" style="left:250.5px;top:277px;height:11px;transform:translateX(-50%)"><p>1X</p></div>
+<div class="abs val" style="left:348px;top:277px;height:11px;transform:translateX(-50%)"><p>2X</p></div>
+<div class="abs val" style="left:443px;top:277px;height:11px;transform:translateX(-50%)"><p>3X</p></div>
+<div class="abs val" style="left:540px;top:277px;height:11px;transform:translateX(-50%)"><p>5X</p></div>
+<div class="abs" style="left:522px;top:337px;width:36px;height:10px"><img class="fill" src="assets/front/imgFrame2147237646.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:435.84px;top:406px;width:121.155px;height:10px"><img class="fill" src="assets/front/imgGroup1437258918.svg" alt="" draggable="false"></div>
+<div class="abs d100" style="left:493px;top:422px;width:91px;height:16px"><div class="d100-in nd"><span class="nd-t">+ Night Drive</span></div></div>
+<div class="abs" style="left:340px;top:477px;width:14px;height:10px"><img class="fill" src="assets/front/imgVector4.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:424.6px;top:477px;width:36.8px;height:10px"><img class="fill" src="assets/front/imgFrame2147237504.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:521px;top:477px;width:36px;height:10px"><img class="fill" src="assets/front/imgFrame2147237646.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:244px;top:541px;width:313px;height:10px"><img class="fill" src="assets/front/imgGroup1437258916.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:148px;top:599px;width:409px;height:10px"><img class="fill" src="assets/front/imgGroup1437258915.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:148px;top:657px;width:409px;height:10px"><img class="fill" src="assets/front/imgGroup1437258915.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:148px;top:715px;width:409px;height:10px"><img class="fill" src="assets/front/imgGroup1437258915.svg" alt="" draggable="false"></div>
+<div class="abs addbg" style="left:109px;top:750px;width:92px;height:59px"></div><div class="abs plus" style="left:131px;top:778px;height:14px;transform:translateY(-50%)"><p>+</p></div><div class="abs addp" style="left:142px;top:779.22px;width:37px;height:10.645px;transform:translateY(-50%)"><p>₹1200</p></div>
+<div class="abs addbg" style="left:205px;top:750px;width:92px;height:59px"></div><div class="abs plus" style="left:228px;top:778px;height:14px;transform:translateY(-50%)"><p>+</p></div><div class="abs addp" style="left:238.831px;top:779.22px;width:37.285px;height:10.645px;transform:translateY(-50%)"><p>₹1500</p></div>
+<div class="abs addbg" style="left:301px;top:750px;width:92px;height:59px"></div><div class="abs plus" style="left:321px;top:778px;height:14px;transform:translateY(-50%)"><p>+</p></div><div class="abs addp" style="left:332px;top:779.22px;width:41px;height:10.645px;transform:translateY(-50%)"><p>₹2000</p></div>
+<div class="abs addbg" style="left:397px;top:750px;width:92px;height:59px"></div><div class="abs plus" style="left:418px;top:778px;height:14px;transform:translateY(-50%)"><p>+</p></div><div class="abs addp" style="left:428.84px;top:779.22px;width:40.273px;height:10.645px;transform:translateY(-50%)"><p>₹2500</p></div>
+<div class="abs addbg" style="left:493px;top:750px;width:92px;height:59px"></div><div class="abs plus" style="left:513px;top:778px;height:14px;transform:translateY(-50%)"><p>+</p></div><div class="abs addp" style="left:524px;top:779.22px;width:41px;height:10.645px;transform:translateY(-50%)"><p>₹3000</p></div>
+<div class="abs strip" style="left:109px;top:73px;width:92px;height:47px;--i:1"><div class="abs rc" style="left:calc(50% + 0.56px);top:calc(50% - 8.99px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/front/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:16.56px"></div><div class="abs arw" style="left:calc(50% + 1px);top:37px;width:36px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.83%"><img class="blk" src="assets/front/imgVector1396.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-18px;top:-14.06px;width:57.522px;height:72.691px"><div class="rin" style="width:50.14px;height:67.397px;transform:rotate(6.57deg)"><img class="fill" src="assets/front/imgVector1261.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:-18.59px;top:-14.12px;width:58.115px;height:72.76px"><div class="rin" style="width:50.737px;height:67.397px;transform:rotate(6.57deg)"><span class="ins" style="inset:-1.23% -1.48% -1.94% -1.43%"><img class="blk" src="assets/front/imgVector1263.svg" alt="" draggable="false"></span></div></div></div><div class="lw r"><div class="abs rc" style="left:52.97px;top:-14.07px;width:60.662px;height:73.053px"><div class="rin" style="width:53.302px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><img class="fill" src="assets/front/imgVector1262.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:52.97px;top:-13.43px;width:55.111px;height:72.414px"><div class="rin" style="width:47.714px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><span class="ins" style="inset:-1.23% -1.57% -1.94% -1.55%"><img class="blk" src="assets/front/imgVector1264.svg" alt="" draggable="false"></span></div></div></div><div class="abs" style="left:40px;top:18px;width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/front/imgEllipse8.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:calc(50% + 0.5px);top:27.5px">1X</div></div>
+<div class="abs strip" style="left:205px;top:73px;width:92px;height:47px;--i:2"><div class="abs rc" style="left:calc(50% + 0.56px);top:calc(50% - 9.4px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/front/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:16.56px"></div><div class="abs arw" style="left:calc(50% + 1px);top:40px;width:36px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.83%"><img class="blk" src="assets/front/imgVector1396.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-17px;top:-14.06px;width:57.522px;height:72.691px"><div class="rin" style="width:50.14px;height:67.397px;transform:rotate(6.57deg)"><img class="fill" src="assets/front/imgVector1261.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:-17.59px;top:-14.12px;width:58.115px;height:72.76px"><div class="rin" style="width:50.737px;height:67.397px;transform:rotate(6.57deg)"><span class="ins" style="inset:-1.23% -1.48% -1.94% -1.43%"><img class="blk" src="assets/front/imgVector1263.svg" alt="" draggable="false"></span></div></div></div><div class="lw r"><div class="abs rc" style="left:52.97px;top:-14.07px;width:60.662px;height:73.053px"><div class="rin" style="width:53.302px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><img class="fill" src="assets/front/imgVector1262.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:52.97px;top:-13.43px;width:55.111px;height:72.414px"><div class="rin" style="width:47.714px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><span class="ins" style="inset:-1.23% -1.57% -1.94% -1.55%"><img class="blk" src="assets/front/imgVector1264.svg" alt="" draggable="false"></span></div></div></div><div class="abs" style="left:39px;top:18px;width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/front/imgEllipse9.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:calc(50% + 0.5px);top:27.5px">1X</div></div>
+<div class="abs strip" style="left:301px;top:73px;width:92px;height:47px;--i:3"><div class="abs rc" style="left:calc(50% + 0.56px);top:calc(50% - 9.4px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/front/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:19.32px"></div><div class="abs arw" style="left:calc(50% + 1px);top:40px;width:42px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.71%"><img class="blk" src="assets/front/imgVector1397.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-22px;top:-14.06px;width:57.522px;height:72.691px"><div class="rin" style="width:50.14px;height:67.397px;transform:rotate(6.57deg)"><img class="fill" src="assets/front/imgVector1261.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:-22.59px;top:-14.12px;width:58.115px;height:72.76px"><div class="rin" style="width:50.737px;height:67.397px;transform:rotate(6.57deg)"><span class="ins" style="inset:-1.23% -1.48% -1.94% -1.43%"><img class="blk" src="assets/front/imgVector1263.svg" alt="" draggable="false"></span></div></div></div><div class="lw r"><div class="abs rc" style="left:57.97px;top:-14.07px;width:60.662px;height:73.053px"><div class="rin" style="width:53.302px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><img class="fill" src="assets/front/imgVector1262.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:57.97px;top:-13.43px;width:55.111px;height:72.414px"><div class="rin" style="width:47.714px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><span class="ins" style="inset:-1.23% -1.57% -1.94% -1.55%"><img class="blk" src="assets/front/imgVector1264.svg" alt="" draggable="false"></span></div></div></div><div class="abs" style="left:40px;top:18px;width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/front/imgEllipse9.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:50%;top:27.5px">2X</div></div>
+<div class="abs strip" style="left:397px;top:73px;width:92px;height:47px;--i:4"><div class="abs rc" style="left:calc(50% + 0.56px);top:calc(50% - 8.99px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/front/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:22.08px"></div><div class="abs arw" style="left:calc(50% + 1px);top:40px;width:48px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.62% -2.21px -0.63%"><img class="blk" src="assets/front/imgVector1398.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-30.56px;top:-17.86px;width:68.047px;height:80.237px"><div class="rin" style="width:55.651px;height:71.014px;transform:rotate(10.87deg)"><img class="fill" src="assets/front/imgGroup1437258902.svg" alt="" draggable="false"></div></div></div><div class="lw r"><div class="abs rc" style="left:56px;top:-18px;width:70.595px;height:80.908px"><div class="rin" style="width:58.208px;height:71.207px;transform:rotate(169.13deg) scaleY(-1)"><img class="fill" src="assets/front/imgGroup1437258904.svg" alt="" draggable="false"></div></div></div><div class="abs" style="left:40px;top:18px;width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/front/imgEllipse9.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:50%;top:27.5px">3X</div></div>
+<div class="abs strip" style="left:494px;top:73px;width:90px;height:47px;--i:5"><div class="abs rc" style="left:calc(50% + 1.56px);top:calc(50% - 8.99px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/front/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:24.84px"></div><div class="abs arw" style="left:calc(50% + 1px);top:40px;width:54px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.56%"><img class="blk" src="assets/front/imgVector1399.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-34.56px;top:-17.86px;width:68.047px;height:80.237px"><div class="rin" style="width:55.651px;height:71.014px;transform:rotate(10.87deg)"><img class="fill" src="assets/front/imgGroup1437258902.svg" alt="" draggable="false"></div></div></div><div class="lw r"><div class="abs rc" style="left:58px;top:-18px;width:70.595px;height:80.908px"><div class="rin" style="width:58.208px;height:71.207px;transform:rotate(169.13deg) scaleY(-1)"><img class="fill" src="assets/front/imgGroup1437258904.svg" alt="" draggable="false"></div></div></div><div class="abs" style="left:50%;top:18px;transform:translateX(-50%);width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/front/imgEllipse9.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:50%;top:27.5px">5X</div></div>
+<div class="abs free" style="left:109px;top:114px;width:92px;height:11px"><p>FREE LENS WITH 1 FRAME</p></div>
+          </section>
+          <section class="page" style="left:486px" aria-label="Back">
+<!-- BACK : Figma 1194:1760 -->
+<div class="abs colbg" style="left:135px;top:75px;width:147px;height:669px"></div>
+<div class="abs colbg rec" style="left:285px;top:75px;width:147px;height:669px"></div>
+<div class="abs colbg" style="left:438px;top:80px;width:147px;height:669px"></div>
+<div class="abs ov" style="left:135px;top:75px;width:147px;height:172px"></div>
+<div class="abs ov" style="left:286px;top:76px;width:145px;height:171px"></div>
+<div class="abs ov" style="left:438px;top:80px;width:147px;height:167px"></div>
+<div class="abs tag rect up" style="left:285px;top:65px;width:147px;height:11px;overflow:hidden"><div class="tag-t" style="left:calc(50% + 0.46px);top:5px"><p>BESTSELLER</p></div></div>
+<div class="abs nm" style="left:209.5px;top:131px;height:33px;transform:translateX(-50%)"><p>Owndays <b class="red">Japan</b> Shield<br>BLU Thin<br>Extra Wide View</p></div>
+<div class="abs nm" style="left:359px;top:131px;height:33px;transform:translateX(-50%)"><p>Owndays <b class="red">Japan</b><br>BLU+ Thin<br>Wider+ AI Adaptive View</p></div>
+<div class="abs nm" style="left:511.5px;top:131px;height:33px;transform:translateX(-50%)"><p>Rodenstock <svg class="flag" viewBox="0 0 12 9" width="9" height="7" aria-hidden="true"><rect width="12" height="3" fill="#2b2b2b"/><rect y="3" width="12" height="3" fill="#dd0000"/><rect y="6" width="12" height="3" fill="#ffce00"/></svg> <b class="gry">or</b><br>Tokai <b class="red">Japan</b><br>AI Adaptive View</p></div>
+<div class="abs idx" style="left:207px;top:175px;width:74px;height:16px;transform:translateX(-50%);background:#e2e2ec;padding:2px 4px"><p>Upto 1.67 index</p></div>
+<div class="abs idx" style="left:358px;top:175px;width:74px;height:16px;transform:translateX(-50%);background:#d5d5e1;padding:2px 7px"><p>Upto 1.74 index</p></div>
+<div class="abs idx" style="left:511px;top:175px;width:74px;height:16px;transform:translateX(-50%);background:#d5d5e1;padding:2px 4px"><p>Upto 1.67 index</p></div>
+<div class="abs price" style="left:202.17px;top:210px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/back/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:65px"><p>10600</p></span></div>
+<div class="abs price" style="left:358.17px;top:210px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/back/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:65px"><p>15600</p></span></div>
+<div class="abs price" style="left:511.67px;top:210px;height:14px;transform:translateX(-50%)"><span class="rs"><img class="fill" src="assets/back/imgPrice.svg" alt="" draggable="false"></span><span class="pn" style="width:70px"><p>35600</p></span></div>
+<div class="abs d100" style="left:134px;top:241px;width:147px;height:16px"><div class="d100-in"><span class="d100-t">100 Days</span><span class="d100-v"><span class="ins" style="inset:0 -0.15px"><img class="blk" src="assets/back/imgVector1763.svg" alt="" draggable="false"></span></span><span class="d100-i"><span class="ins" style="inset:0 -3.75% -2.86% -3.75%"><img class="blk" src="assets/back/imgGroup1437258901.svg" alt="" draggable="false"></span></span></div></div>
+<div class="abs d100" style="left:286px;top:241px;width:147px;height:16px"><div class="d100-in"><span class="d100-t">100 Days</span><span class="d100-v"><span class="ins" style="inset:0 -0.15px"><img class="blk" src="assets/back/imgVector1763.svg" alt="" draggable="false"></span></span><span class="d100-i"><span class="ins" style="inset:0 -3.75% -2.86% -3.75%"><img class="blk" src="assets/back/imgGroup1437258901.svg" alt="" draggable="false"></span></span></div></div>
+<div class="abs d100" style="left:438px;top:241px;width:147px;height:16px"><div class="d100-in"><span class="d100-t">100 Days</span><span class="d100-v"><span class="ins" style="inset:0 -0.15px"><img class="blk" src="assets/back/imgVector1763.svg" alt="" draggable="false"></span></span><span class="d100-i"><span class="ins" style="inset:0 -3.75% -2.86% -3.75%"><img class="blk" src="assets/back/imgGroup1437258901.svg" alt="" draggable="false"></span></span></div></div>
+<div class="abs val" style="left:205px;top:277px;height:11px;transform:translateX(-50%)"><p>5X</p></div>
+<div class="abs val" style="left:360px;top:277px;height:11px;transform:translateX(-50%)"><p>7X</p></div>
+<div class="abs val" style="left:513px;top:277px;height:11px;transform:translateX(-50%)"><p>10X</p></div>
+<div class="abs" style="left:189px;top:339px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs fa" style="top:344px;left:359px;transform:translate(-50%,-50%)"><p>Fast Adoption</p></div>
+<div class="abs fa" style="top:344px;left:512px;transform:translate(-50%,-50%)"><p>Fast Adoption</p></div>
+<div class="abs" style="left:189px;top:403px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:340px;top:403px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:494px;top:403px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:189px;top:476px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:340px;top:476px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:494px;top:476px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:189px;top:540px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:340px;top:540px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:494px;top:540px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:189px;top:600px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:340px;top:600px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:494px;top:600px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:189px;top:659px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:340px;top:659px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:494px;top:659px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:189px;top:717px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:340px;top:717px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs" style="left:494px;top:717px;width:36px;height:10px"><img class="fill" src="assets/back/imgFrame2147237535.svg" alt="" draggable="false"></div>
+<div class="abs d100" style="left:161px;top:419px;width:91px;height:16px"><div class="d100-in nd"><span class="nd-t">+ Night Drive</span></div></div>
+<div class="abs addbg" style="left:133px;top:747px;width:147px;height:62px"></div>
+<div class="abs addbg" style="left:285px;top:747px;width:147px;height:62px"></div>
+<div class="abs addbg" style="left:438px;top:747px;width:147px;height:62px"></div>
+<div class="abs plus" style="left:182px;top:778px;height:14px;transform:translateY(-50%)"><p>+</p></div>
+<div class="abs addp" style="left:192.73px;top:779.23px;width:40.273px;height:10.645px;transform:translateY(-50%)"><p>₹3000</p></div>
+<div class="abs plus" style="left:334px;top:783px;height:14px;transform:translateY(-50%)"><p>+</p></div>
+<div class="abs addp" style="left:344.73px;top:784.23px;width:40.273px;height:10.645px;transform:translateY(-50%)"><p>₹3500</p></div>
+<div class="abs plus" style="left:487px;top:783px;height:14px;transform:translateY(-50%)"><p>+</p></div>
+<div class="abs addp" style="left:497.73px;top:784.23px;width:40.273px;height:10.645px;transform:translateY(-50%)"><p>₹4000</p></div>
+<div class="abs strip" style="left:135px;top:75px;width:147px;height:47px;--i:1"><div class="abs rc" style="left:calc(50% + 0.06px);top:calc(50% - 7.98px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/back/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:38.64px"></div><div class="abs arw" style="left:calc(50% + 0.5px);top:41.01px;width:84px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.36%"><img class="blk" src="assets/back/imgVector1397.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-16.44px;top:-14.19px;width:57.522px;height:72.691px"><div class="rin" style="width:50.14px;height:67.397px;transform:rotate(6.57deg)"><img class="fill" src="assets/back/imgVector1261.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:-17.03px;top:-14.26px;width:58.115px;height:72.76px"><div class="rin" style="width:50.737px;height:67.397px;transform:rotate(6.57deg)"><span class="ins" style="inset:-1.23% -1.48% -1.94% -1.43%"><img class="blk" src="assets/back/imgVector1263.svg" alt="" draggable="false"></span></div></div></div><div class="lw r"><div class="abs rc" style="left:107.97px;top:-14.07px;width:60.662px;height:73.053px"><div class="rin" style="width:53.302px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><img class="fill" src="assets/back/imgVector1262.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:107.97px;top:-13.43px;width:55.111px;height:72.414px"><div class="rin" style="width:47.714px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><span class="ins" style="inset:-1.23% -1.57% -1.94% -1.55%"><img class="blk" src="assets/back/imgVector1264.svg" alt="" draggable="false"></span></div></div></div><div class="abs" style="left:calc(50% + 0.5px);top:23px;transform:translateX(-50%);width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/back/imgEllipse8.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:74px;top:31px">5X</div></div>
+<div class="abs strip" style="left:286px;top:75px;width:145px;height:47px;--i:2"><div class="abs rc" style="left:calc(50% + 1.06px);top:calc(50% - 7.99px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/back/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:48.76px"></div><div class="abs arw" style="left:calc(50% + 0.5px);top:41px;width:106px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.28%"><img class="blk" src="assets/back/imgVector1396.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-28.44px;top:-14.19px;width:57.522px;height:72.691px"><div class="rin" style="width:50.14px;height:67.397px;transform:rotate(6.57deg)"><img class="fill" src="assets/back/imgVector1261.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:-29.03px;top:-14.26px;width:58.115px;height:72.76px"><div class="rin" style="width:50.737px;height:67.397px;transform:rotate(6.57deg)"><span class="ins" style="inset:-1.23% -1.48% -1.94% -1.43%"><img class="blk" src="assets/back/imgVector1263.svg" alt="" draggable="false"></span></div></div></div><div class="lw r"><div class="abs rc" style="left:117.97px;top:-14.07px;width:60.662px;height:73.053px"><div class="rin" style="width:53.302px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><img class="fill" src="assets/back/imgVector1262.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:117.97px;top:-13.43px;width:55.111px;height:72.414px"><div class="rin" style="width:47.714px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><span class="ins" style="inset:-1.23% -1.57% -1.94% -1.55%"><img class="blk" src="assets/back/imgVector1264.svg" alt="" draggable="false"></span></div></div></div><div class="abs" style="left:calc(50% + 0.5px);top:23px;transform:translateX(-50%);width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/back/imgEllipse8.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:calc(50% + 1px);top:31px">7X</div></div>
+<div class="abs strip" style="left:438px;top:75px;width:147px;height:47px;--i:3"><div class="abs rc" style="left:calc(50% + 0.06px);top:calc(50% - 7.99px);width:209.129px;height:119.018px;transform:translate(-50%,-50%)"><div class="rin" style="width:208px;height:117px;transform:rotate(-0.56deg)"><img class="cover" src="assets/back/imgAdobeStock6459466322.webp" alt="" draggable="false"></div></div><div class="abs bl" style="left:0px;top:0px;inset:0;--hw:48.3px"></div><div class="abs arw" style="left:50%;top:41px;width:105px;height:0px;transform:translateX(-50%)"><span class="ins" style="inset:-2.21px -0.29%"><img class="blk" src="assets/back/imgVector1398.svg" alt="" draggable="false"></span></div><div class="lw l"><div class="abs rc" style="left:-28.44px;top:-14.19px;width:57.522px;height:72.691px"><div class="rin" style="width:50.14px;height:67.397px;transform:rotate(6.57deg)"><img class="fill" src="assets/back/imgVector1261.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:-29.03px;top:-14.26px;width:58.115px;height:72.76px"><div class="rin" style="width:50.737px;height:67.397px;transform:rotate(6.57deg)"><span class="ins" style="inset:-1.23% -1.48% -1.94% -1.43%"><img class="blk" src="assets/back/imgVector1263.svg" alt="" draggable="false"></span></div></div></div><div class="lw r"><div class="abs rc" style="left:117.97px;top:-14.07px;width:60.662px;height:73.053px"><div class="rin" style="width:53.302px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><img class="fill" src="assets/back/imgVector1262.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:117.97px;top:-13.43px;width:55.111px;height:72.414px"><div class="rin" style="width:47.714px;height:67.397px;transform:rotate(173.43deg) scaleY(-1)"><span class="ins" style="inset:-1.23% -1.57% -1.94% -1.55%"><img class="blk" src="assets/back/imgVector1264.svg" alt="" draggable="false"></span></div></div></div><div class="abs" style="left:calc(50% + 0.5px);top:23px;transform:translateX(-50%);width:16px;height:16px"><span class="ins" style="inset:-50%"><img class="blk" src="assets/back/imgEllipse8.svg" alt="" draggable="false"></span></div><div class="abs badge-t" style="left:calc(50% + 0.5px);top:31px">10X</div></div>
+          </section>
+        </div>
+      </div>
+<!-- LEFT RAIL (stays put while columns slide) -->
+<div class="abs" id="rows" style="left:0;top:258px;width:105px;height:552px"><div class="abs ic" style="left:8px;top:-2px"><div id="ic-corr"><img class="fill" src="assets/front/img2.svg" alt="" draggable="false"></div><div id="ic-chev"><img class="fill" src="assets/front/img3.svg" alt="" draggable="false"></div></div><div class="abs lb" style="left:6px;top:27px;width:86px"><p><span id="cview-wrap">Corridor<span id="cview"> View</span></span></p></div><div class="abs ic" style="left:8px;top:56px"><img class="fill" src="assets/front/img3.svg" alt="" draggable="false"></div><div class="abs lb" style="left:6px;top:85px;width:86px"><p>Smooth Power<br>Transition</p></div><div class="abs ic" style="left:8px;top:126px"><img class="fill" src="assets/front/img4.svg" alt="" draggable="false"></div><div class="abs lb" style="left:6px;top:155px;width:86px"><p>Confident<br>Driving Vision</p></div><div class="abs ic" style="left:8px;top:196px"><img class="fill" src="assets/front/img5.svg" alt="" draggable="false"></div><div class="abs lb" style="left:6px;top:225px;width:86px"><p>UV 400<br>Sun Protection</p></div><div class="abs ic" style="left:8px;top:266px"><div class="abs" style="left:calc(50% + 0.21px);top:calc(50% - 0.26px);width:19.41px;height:23.51px;transform:translate(-50%,-50%)"><span class="ins" style="inset:0 -0.26% -1.96% -2.37%"><img class="blk" src="assets/front/imgGroup1437258705.svg" alt="" draggable="false"></span></div></div><div class="abs lb" style="left:6px;top:295px;width:86px"><p>Blue Light Block</p></div><div class="abs ic" style="left:8px;top:324px"><img class="fill" src="assets/front/img6.svg" alt="" draggable="false"></div><div class="abs lb" style="left:6px;top:353px;width:93px"><p>Smudge Resistant</p></div><div class="abs ic" style="left:8px;top:382px"><img class="fill" src="assets/front/img7.svg" alt="" draggable="false"></div><div class="abs lb" style="left:6px;top:411px;width:90px"><p>Scratch Resistant</p></div><div class="abs ic" style="left:8px;top:440px"><div class="abs rc" style="left:0.19px;top:0.63px;width:18.937px;height:23.265px"><div class="rin" style="width:23.265px;height:18.937px;transform:rotate(-90deg)"><img class="fill" src="assets/front/imgVector1423.svg" alt="" draggable="false"></div></div><div class="abs rc" style="left:0px;top:0.49px;width:19.235px;height:23.51px"><div class="rin" style="width:23.51px;height:19.235px;transform:rotate(-90deg)"><div class="abs" style="inset:0;overflow:hidden"><img class="abs" style="height:164.56%;left:-12.99%;top:-22.76%;width:129.87%;max-width:none" src="assets/front/imgLensPackageImages31.png" alt="" draggable="false"></div></div></div><div class="abs rc" style="left:0.32px;top:0.43px;width:19.41px;height:23.51px"><div class="rin" style="width:23.51px;height:19.41px;transform:rotate(-90deg)"><span class="ins" style="inset:-2.37% -1.96%"><img class="blk" src="assets/front/imgVector1719.svg" alt="" draggable="false"></span></div></div></div><div class="abs lb" style="left:6px;top:469px;width:86px"><p>Anti-Glare</p></div><div class="abs ic" style="left:8px;top:498px"><div class="abs" style="left:1px;top:0.49px;width:19.515px;height:23.514px"><span class="ins" style="inset:-1.94% -1.9% -1.96% -2.28%"><img class="blk" src="assets/front/imgGroup1437258723.svg" alt="" draggable="false"></span></div></div><div class="abs lb" style="left:6px;top:527px;width:86px"><p>Photochromatic<br>Coating</p></div><div class="abs" style="left:6px;top:48.50000px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div><div class="abs" style="left:6px;top:118.49756px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div><div class="abs" style="left:6px;top:188.49513px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div><div class="abs" style="left:6px;top:258.49518px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div><div class="abs" style="left:6px;top:316.49517px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div><div class="abs" style="left:6px;top:374.49517px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div><div class="abs" style="left:6px;top:432.49517px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div><div class="abs" style="left:6px;top:490.49517px;width:94.5px;height:1px"><img class="fill" src="assets/front/imgVector1744.svg" alt="" draggable="false"></div></div>
+<div class="abs rate" id="rate" style="left:10px;top:208px"><p><b>Rate Cut</b><br>is now Live!</p></div>
+<div class="abs special" id="special" style="left:10px;top:81px;width:86px"><p>SPECIAL PURPOSE<br>LENSES</p></div>
+<div class="abs" id="shade" style="left:105px;top:60px;width:16px;height:782px"></div>
+<!-- HEADER --><header class="hdr"><div class="abs" style="left:0px;top:0px;width:595px;height:60px"><img class="fill" src="assets/front/imgVector.svg" alt="" draggable="false"></div><div class="abs hl" style="left:16px;top:9px;width:212px"><div class="lg"><img class="fill" src="assets/front/imgGroup.svg" alt="" draggable="false"></div><p class="ttl">Progressive Lenses</p></div><div class="abs lock" style="left:363px;top:10px"><div class="memb"><div class="gm"><div class="abs gold" style="left:-4.3px;top:-14.39px;width:62.88px;height:45.6px;mask-image:url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjU0LjIiIGhlaWdodD0iMTQuNjIiIHZpZXdCb3g9IjAgMCA1NC4yIDE0LjYyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBpZD0iY2xpcHBhdGgtMiI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik0zMi4wNiAwLjIzVjE0LjM5SDQwLjcxVjEyLjExSDM0LjY1VjAuMjNIMzIuMDdIMzIuMDZaTTQ0Ljc3IDIuNTFINDYuODZDNDcuODIgMi41MSA0OC42NSAyLjcxIDQ5LjM1IDMuMUM1MC4wNiAzLjQ5IDUwLjYxIDQuMDQgNTEgNC43NUM1MS4zOSA1LjQ2IDUxLjU5IDYuMzEgNTEuNTkgNy4zQzUxLjU5IDguMjkgNTEuMzkgOS4xMiA1MSA5Ljg1QzUwLjYxIDEwLjU2IDUwLjA2IDExLjEyIDQ5LjM1IDExLjUyQzQ4LjY1IDExLjkxIDQ3LjgyIDEyLjExIDQ2Ljg2IDEyLjExSDQ0Ljc3VjIuNTFaTTQyLjE5IDAuMjNWMTQuMzlINDYuODFDNDguMyAxNC4zOSA0OS42IDE0LjA5IDUwLjcxIDEzLjQ5QzUxLjgyIDEyLjg4IDUyLjY5IDEyLjA1IDUzLjI5IDEwLjk4QzUzLjkgOS45IDU0LjIgOC42NyA1NC4yIDcuMjlDNTQuMiA1LjkxIDUzLjkgNC42NyA1My4yOSAzLjYyQzUyLjY4IDIuNTYgNTEuODIgMS43MyA1MC43MSAxLjEzQzQ5LjYxIDAuNTE5OTk5IDQ4LjMxIDAuMjE5OTk5IDQ2LjgxIDAuMjE5OTk5SDQyLjE5VjAuMjNaTTQuMjUgMC41NDk5OTlDMy4zOSAwLjg5OTk5OSAyLjYzOTk5IDEuNDEgMS45ODk5OSAyLjA3QzEuMzU5OTkgMi43MiAwLjg2MDAxIDMuNDkgMC41MTAwMSA0LjM5QzAuMTcwMDEgNS4yOCAwIDYuMjUgMCA3LjNDMCA4LjM1IDAuMTc5OTk5IDkuMzIgMC41Mjk5OTkgMTAuMjFDMC44OTk5OTkgMTEuMSAxLjQwMDAyIDExLjg3IDIuMDUwMDIgMTIuNTNDMi43MDAwMiAxMy4xOSAzLjQ1IDEzLjcgNC4zMSAxNC4wN0M1LjE3IDE0LjQ0IDYuMTEgMTQuNjIgNy4xMiAxNC42MkM3Ljk2IDE0LjYyIDguNzcwMDIgMTQuNDggOS41NTAwMiAxNC4yQzEwLjMzIDEzLjkxIDExLjA0IDEzLjQ4IDExLjY2IDEyLjkzQzEyLjI5IDEyLjM2IDEyLjc5IDExLjY2IDEzLjE2IDEwLjgyQzEzLjUzIDkuOTggMTMuNzEgOS4wMiAxMy43MSA3LjkzVjYuNUg3LjA2VjguNjlIMTEuMTNWOC43NUMxMS4xMyA5LjQ3IDEwLjk1IDEwLjEgMTAuNTggMTAuNjNDMTAuMjEgMTEuMTUgOS43MyAxMS41NSA5LjEyIDExLjg1QzguNTEgMTIuMTMgNy44NSAxMi4yNyA3LjEzIDEyLjI3QzYuMjQgMTIuMjcgNS40NTk5OSAxMi4wNiA0Ljc2OTk5IDExLjY0QzQuMDg5OTkgMTEuMjIgMy41NSAxMC42NSAzLjE2IDkuOTFDMi43OCA5LjE2IDIuNTkgOC4yOSAyLjU5IDcuMzFDMi41OSA2LjMzIDIuNzcwMDEgNS40NiAzLjE0MDAxIDQuNzNDMy41MjAwMSAzLjk5IDQuMDUgMy40MiA0LjcyIDNDNS40IDIuNTggNi4xOTAwMiAyLjM3IDcuMDgwMDIgMi4zN0M3Ljk3MDAyIDIuMzcgOC43NTk5OSAyLjYgOS4zOTk5OSAzLjA1QzEwLjAzIDMuNTEgMTAuNDggNC4xIDEwLjc1IDQuODRMMTMuMDUgMy43NEMxMi44MSAzLjA3IDEyLjQxIDIuNDUgMTEuODUgMS45QzExLjI5IDEuMzMgMTAuNjEgMC44NzAwMDEgOS44MDAwMiAwLjUzMDAwMUM5LjAwMDAyIDAuMTkwMDAxIDguMTAwMDIgMC4wMTk5OTk1IDcuMDgwMDIgMC4wMTk5OTk1QzYuMDYwMDIgMC4wMTk5OTk1IDUuMTI5OTkgMC4yIDQuMjY5OTkgMC41N00yMC42NCAxMS44OUMyMC4wNiAxMS42NCAxOS41NCAxMS4yOSAxOS4xIDEwLjg1QzE4LjY3IDEwLjQxIDE4LjMzIDkuODggMTguMDkgOS4yN0MxNy44NSA4LjY2IDE3LjczIDggMTcuNzMgNy4yOUMxNy43MyA2LjU4IDE3Ljg1IDUuOTMgMTguMDkgNS4zM0MxOC4zMyA0LjcyIDE4LjY3IDQuMiAxOS4xIDMuNzVDMTkuNTQgMy4yOSAyMC4wNiAyLjk1IDIwLjY0IDIuNzFDMjEuMjIgMi40NyAyMS44NiAyLjM1IDIyLjU0IDIuMzVDMjMuMjIgMi4zNSAyMy44NyAyLjQ3IDI0LjQ2IDIuNzFDMjUuMDQgMi45NSAyNS41NSAzLjMgMjUuOTggMy43NUMyNi40MiA0LjE5IDI2Ljc2IDQuNzIgMjYuOTkgNS4zM0MyNy4yMyA1LjkyIDI3LjM1IDYuNTggMjcuMzUgNy4yOUMyNy4zNSA4IDI3LjIzIDguNjYgMjYuOTkgOS4yN0MyNi43NiA5Ljg4IDI2LjQzIDEwLjQgMjUuOTggMTAuODVDMjUuNTUgMTEuMjkgMjUuMDQgMTEuNjQgMjQuNDYgMTEuODlDMjMuODggMTIuMTMgMjMuMjQgMTIuMjUgMjIuNTQgMTIuMjVDMjEuODQgMTIuMjUgMjEuMjIgMTIuMTMgMjAuNjQgMTEuODlaTTE5LjYyIDAuNTQ5OTk5QzE4LjcyIDAuODk5OTk5IDE3Ljk0IDEuNDEgMTcuMjYgMi4wN0MxNi41OSAyLjczIDE2LjA3IDMuNSAxNS43IDQuMzlDMTUuMzMgNS4yOCAxNS4xNSA2LjI1IDE1LjE1IDcuM0MxNS4xNSA4LjM1IDE1LjMzIDkuMzEgMTUuNyAxMC4yMUMxNi4wOCAxMS4xIDE2LjYxIDExLjg3IDE3LjI4IDEyLjUzQzE3Ljk1IDEzLjE5IDE4Ljc0IDEzLjcgMTkuNjQgMTQuMDdDMjAuNTQgMTQuNDQgMjEuNTEgMTQuNjIgMjIuNTUgMTQuNjJDMjMuNTkgMTQuNjIgMjQuNTcgMTQuNDQgMjUuNDYgMTQuMDdDMjYuMzYgMTMuNyAyNy4xNCAxMy4xOSAyNy44MiAxMi41M0MyOC40OSAxMS44NyAyOS4wMiAxMS4xIDI5LjQgMTAuMjFDMjkuNzggOS4zMSAyOS45NyA4LjM0IDI5Ljk3IDcuM0MyOS45NyA2LjI2IDI5Ljc4IDUuMjggMjkuNCA0LjM5QzI5LjAzIDMuNSAyOC41MSAyLjc0IDI3Ljg0IDIuMDlDMjcuMTcgMS40MyAyNi4zOCAwLjkxOTk5OSAyNS40OCAwLjU0OTk5OUMyNC41OCAwLjE3OTk5OSAyMy42IDAgMjIuNTUgMEMyMS41IDAgMjAuNTIgMC4xNzk5OTkgMTkuNjIgMC41NDk5OTlaIiBmaWxsPSJibGFjayIvPgo8L2c+Cjwvc3ZnPgo='),url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjYyLjUwOTIiIGhlaWdodD0iNDUuNDA5OCIgdmlld0JveD0iMCAwIDYyLjUwOTIgNDUuNDA5OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9ImNsaXBwYXRoLTMiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNOC45NTAwNSAyLjI2MzIyZS0wNUwwIDI4LjcxNzdMNTMuNTU5MiA0NS40MDk4TDYyLjUwOTIgMTYuNjkyMUw4Ljk1MDA1IDIuMjYzMjJlLTA1WiIgZmlsbD0iYmxhY2siLz4KPC9nPgo8L3N2Zz4K');-webkit-mask-image:url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjU0LjIiIGhlaWdodD0iMTQuNjIiIHZpZXdCb3g9IjAgMCA1NC4yIDE0LjYyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBpZD0iY2xpcHBhdGgtMiI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik0zMi4wNiAwLjIzVjE0LjM5SDQwLjcxVjEyLjExSDM0LjY1VjAuMjNIMzIuMDdIMzIuMDZaTTQ0Ljc3IDIuNTFINDYuODZDNDcuODIgMi41MSA0OC42NSAyLjcxIDQ5LjM1IDMuMUM1MC4wNiAzLjQ5IDUwLjYxIDQuMDQgNTEgNC43NUM1MS4zOSA1LjQ2IDUxLjU5IDYuMzEgNTEuNTkgNy4zQzUxLjU5IDguMjkgNTEuMzkgOS4xMiA1MSA5Ljg1QzUwLjYxIDEwLjU2IDUwLjA2IDExLjEyIDQ5LjM1IDExLjUyQzQ4LjY1IDExLjkxIDQ3LjgyIDEyLjExIDQ2Ljg2IDEyLjExSDQ0Ljc3VjIuNTFaTTQyLjE5IDAuMjNWMTQuMzlINDYuODFDNDguMyAxNC4zOSA0OS42IDE0LjA5IDUwLjcxIDEzLjQ5QzUxLjgyIDEyLjg4IDUyLjY5IDEyLjA1IDUzLjI5IDEwLjk4QzUzLjkgOS45IDU0LjIgOC42NyA1NC4yIDcuMjlDNTQuMiA1LjkxIDUzLjkgNC42NyA1My4yOSAzLjYyQzUyLjY4IDIuNTYgNTEuODIgMS43MyA1MC43MSAxLjEzQzQ5LjYxIDAuNTE5OTk5IDQ4LjMxIDAuMjE5OTk5IDQ2LjgxIDAuMjE5OTk5SDQyLjE5VjAuMjNaTTQuMjUgMC41NDk5OTlDMy4zOSAwLjg5OTk5OSAyLjYzOTk5IDEuNDEgMS45ODk5OSAyLjA3QzEuMzU5OTkgMi43MiAwLjg2MDAxIDMuNDkgMC41MTAwMSA0LjM5QzAuMTcwMDEgNS4yOCAwIDYuMjUgMCA3LjNDMCA4LjM1IDAuMTc5OTk5IDkuMzIgMC41Mjk5OTkgMTAuMjFDMC44OTk5OTkgMTEuMSAxLjQwMDAyIDExLjg3IDIuMDUwMDIgMTIuNTNDMi43MDAwMiAxMy4xOSAzLjQ1IDEzLjcgNC4zMSAxNC4wN0M1LjE3IDE0LjQ0IDYuMTEgMTQuNjIgNy4xMiAxNC42MkM3Ljk2IDE0LjYyIDguNzcwMDIgMTQuNDggOS41NTAwMiAxNC4yQzEwLjMzIDEzLjkxIDExLjA0IDEzLjQ4IDExLjY2IDEyLjkzQzEyLjI5IDEyLjM2IDEyLjc5IDExLjY2IDEzLjE2IDEwLjgyQzEzLjUzIDkuOTggMTMuNzEgOS4wMiAxMy43MSA3LjkzVjYuNUg3LjA2VjguNjlIMTEuMTNWOC43NUMxMS4xMyA5LjQ3IDEwLjk1IDEwLjEgMTAuNTggMTAuNjNDMTAuMjEgMTEuMTUgOS43MyAxMS41NSA5LjEyIDExLjg1QzguNTEgMTIuMTMgNy44NSAxMi4yNyA3LjEzIDEyLjI3QzYuMjQgMTIuMjcgNS40NTk5OSAxMi4wNiA0Ljc2OTk5IDExLjY0QzQuMDg5OTkgMTEuMjIgMy41NSAxMC42NSAzLjE2IDkuOTFDMi43OCA5LjE2IDIuNTkgOC4yOSAyLjU5IDcuMzFDMi41OSA2LjMzIDIuNzcwMDEgNS40NiAzLjE0MDAxIDQuNzNDMy41MjAwMSAzLjk5IDQuMDUgMy40MiA0LjcyIDNDNS40IDIuNTggNi4xOTAwMiAyLjM3IDcuMDgwMDIgMi4zN0M3Ljk3MDAyIDIuMzcgOC43NTk5OSAyLjYgOS4zOTk5OSAzLjA1QzEwLjAzIDMuNTEgMTAuNDggNC4xIDEwLjc1IDQuODRMMTMuMDUgMy43NEMxMi44MSAzLjA3IDEyLjQxIDIuNDUgMTEuODUgMS45QzExLjI5IDEuMzMgMTAuNjEgMC44NzAwMDEgOS44MDAwMiAwLjUzMDAwMUM5LjAwMDAyIDAuMTkwMDAxIDguMTAwMDIgMC4wMTk5OTk1IDcuMDgwMDIgMC4wMTk5OTk1QzYuMDYwMDIgMC4wMTk5OTk1IDUuMTI5OTkgMC4yIDQuMjY5OTkgMC41N00yMC42NCAxMS44OUMyMC4wNiAxMS42NCAxOS41NCAxMS4yOSAxOS4xIDEwLjg1QzE4LjY3IDEwLjQxIDE4LjMzIDkuODggMTguMDkgOS4yN0MxNy44NSA4LjY2IDE3LjczIDggMTcuNzMgNy4yOUMxNy43MyA2LjU4IDE3Ljg1IDUuOTMgMTguMDkgNS4zM0MxOC4zMyA0LjcyIDE4LjY3IDQuMiAxOS4xIDMuNzVDMTkuNTQgMy4yOSAyMC4wNiAyLjk1IDIwLjY0IDIuNzFDMjEuMjIgMi40NyAyMS44NiAyLjM1IDIyLjU0IDIuMzVDMjMuMjIgMi4zNSAyMy44NyAyLjQ3IDI0LjQ2IDIuNzFDMjUuMDQgMi45NSAyNS41NSAzLjMgMjUuOTggMy43NUMyNi40MiA0LjE5IDI2Ljc2IDQuNzIgMjYuOTkgNS4zM0MyNy4yMyA1LjkyIDI3LjM1IDYuNTggMjcuMzUgNy4yOUMyNy4zNSA4IDI3LjIzIDguNjYgMjYuOTkgOS4yN0MyNi43NiA5Ljg4IDI2LjQzIDEwLjQgMjUuOTggMTAuODVDMjUuNTUgMTEuMjkgMjUuMDQgMTEuNjQgMjQuNDYgMTEuODlDMjMuODggMTIuMTMgMjMuMjQgMTIuMjUgMjIuNTQgMTIuMjVDMjEuODQgMTIuMjUgMjEuMjIgMTIuMTMgMjAuNjQgMTEuODlaTTE5LjYyIDAuNTQ5OTk5QzE4LjcyIDAuODk5OTk5IDE3Ljk0IDEuNDEgMTcuMjYgMi4wN0MxNi41OSAyLjczIDE2LjA3IDMuNSAxNS43IDQuMzlDMTUuMzMgNS4yOCAxNS4xNSA2LjI1IDE1LjE1IDcuM0MxNS4xNSA4LjM1IDE1LjMzIDkuMzEgMTUuNyAxMC4yMUMxNi4wOCAxMS4xIDE2LjYxIDExLjg3IDE3LjI4IDEyLjUzQzE3Ljk1IDEzLjE5IDE4Ljc0IDEzLjcgMTkuNjQgMTQuMDdDMjAuNTQgMTQuNDQgMjEuNTEgMTQuNjIgMjIuNTUgMTQuNjJDMjMuNTkgMTQuNjIgMjQuNTcgMTQuNDQgMjUuNDYgMTQuMDdDMjYuMzYgMTMuNyAyNy4xNCAxMy4xOSAyNy44MiAxMi41M0MyOC40OSAxMS44NyAyOS4wMiAxMS4xIDI5LjQgMTAuMjFDMjkuNzggOS4zMSAyOS45NyA4LjM0IDI5Ljk3IDcuM0MyOS45NyA2LjI2IDI5Ljc4IDUuMjggMjkuNCA0LjM5QzI5LjAzIDMuNSAyOC41MSAyLjc0IDI3Ljg0IDIuMDlDMjcuMTcgMS40MyAyNi4zOCAwLjkxOTk5OSAyNS40OCAwLjU0OTk5OUMyNC41OCAwLjE3OTk5OSAyMy42IDAgMjIuNTUgMEMyMS41IDAgMjAuNTIgMC4xNzk5OTkgMTkuNjIgMC41NDk5OTlaIiBmaWxsPSJibGFjayIvPgo8L2c+Cjwvc3ZnPgo='),url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjYyLjUwOTIiIGhlaWdodD0iNDUuNDA5OCIgdmlld0JveD0iMCAwIDYyLjUwOTIgNDUuNDA5OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9ImNsaXBwYXRoLTMiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNOC45NTAwNSAyLjI2MzIyZS0wNUwwIDI4LjcxNzdMNTMuNTU5MiA0NS40MDk4TDYyLjUwOTIgMTYuNjkyMUw4Ljk1MDA1IDIuMjYzMjJlLTA1WiIgZmlsbD0iYmxhY2siLz4KPC9nPgo8L3N2Zz4K');mask-position:4.3px 15.57px,0.156px 0.171px;-webkit-mask-position:4.3px 15.57px,0.156px 0.171px;mask-size:54.2px 14.62px,62.509px 45.41px;-webkit-mask-size:54.2px 14.62px,62.509px 45.41px"><img class="fill" src="assets/front/imgRectangle2.png" alt="" draggable="false"></div><div class="abs gold" style="left:54.5px;top:-14.15px;width:53.76px;height:44.88px;mask-image:url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjQyLjczIiBoZWlnaHQ9IjE2LjY5IiB2aWV3Qm94PSIwIDAgNDIuNzMgMTYuNjkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJjbGlwcGF0aC00Ij4KPHBhdGggaWQ9IlZlY3RvciIgZD0iTTUuMDYgMEMyLjY3IDAgMS40Nzk5OSAtMi4zODQxOWUtMDcgMC43Mzk5OSAwLjc0Qy05Ljc3NTE2ZS0wNiAxLjQ4IDAgMi42OCAwIDUuMDdWMTEuNjNDMCAxNC4wMiAtOS43NzUxNmUtMDYgMTUuMjEgMC43Mzk5OSAxNS45NUMxLjQ3OTk5IDE2LjY5IDIuNjggMTYuNjkgNS4wNiAxNi42OUgzNy42NkM0MC4wNSAxNi42OSA0MS4yNCAxNi42OSA0MS45OSAxNS45NUM0Mi43MyAxNS4yMSA0Mi43MyAxNC4wMSA0Mi43MyAxMS42M1Y1LjA3QzQyLjczIDIuNjggNDIuNzMgMS40OSA0MS45OSAwLjc0QzQxLjI1IC0yLjM4NDE5ZS0wNyA0MC4wNSAwIDM3LjY2IDBINS4wNloiIGZpbGw9ImJsYWNrIi8+CjwvZz4KPC9zdmc+Cg=='),url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjUzLjY3MDEiIGhlaWdodD0iNDQuNjk2MiIgdmlld0JveD0iMCAwIDUzLjY3MDEgNDQuNjk2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9ImNsaXBwYXRoLTUiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTAuNjk5MyAxLjMwNDIxZS0wNkwwIDI4LjY0NzJMNDIuOTcwOCA0NC42OTYyTDUzLjY3MDEgMTYuMDQ5TDEwLjY5OTMgMS4zMDQyMWUtMDZaIiBmaWxsPSJibGFjayIvPgo8L2c+Cjwvc3ZnPgo=');-webkit-mask-image:url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjQyLjczIiBoZWlnaHQ9IjE2LjY5IiB2aWV3Qm94PSIwIDAgNDIuNzMgMTYuNjkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJjbGlwcGF0aC00Ij4KPHBhdGggaWQ9IlZlY3RvciIgZD0iTTUuMDYgMEMyLjY3IDAgMS40Nzk5OSAtMi4zODQxOWUtMDcgMC43Mzk5OSAwLjc0Qy05Ljc3NTE2ZS0wNiAxLjQ4IDAgMi42OCAwIDUuMDdWMTEuNjNDMCAxNC4wMiAtOS43NzUxNmUtMDYgMTUuMjEgMC43Mzk5OSAxNS45NUMxLjQ3OTk5IDE2LjY5IDIuNjggMTYuNjkgNS4wNiAxNi42OUgzNy42NkM0MC4wNSAxNi42OSA0MS4yNCAxNi42OSA0MS45OSAxNS45NUM0Mi43MyAxNS4yMSA0Mi43MyAxNC4wMSA0Mi43MyAxMS42M1Y1LjA3QzQyLjczIDIuNjggNDIuNzMgMS40OSA0MS45OSAwLjc0QzQxLjI1IC0yLjM4NDE5ZS0wNyA0MC4wNSAwIDM3LjY2IDBINS4wNloiIGZpbGw9ImJsYWNrIi8+CjwvZz4KPC9zdmc+Cg=='),url('data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjUzLjY3MDEiIGhlaWdodD0iNDQuNjk2MiIgdmlld0JveD0iMCAwIDUzLjY3MDEgNDQuNjk2MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9ImNsaXBwYXRoLTUiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTAuNjk5MyAxLjMwNDIxZS0wNkwwIDI4LjY0NzJMNDIuOTcwOCA0NC42OTYyTDUzLjY3MDEgMTYuMDQ5TDEwLjY5OTMgMS4zMDQyMWUtMDZaIiBmaWxsPSJibGFjayIvPgo8L2c+Cjwvc3ZnPgo=');mask-position:5.57px 14.15px,0.099px 0.153px;-webkit-mask-position:5.57px 14.15px,0.099px 0.153px;mask-size:42.73px 16.69px,53.67px 44.696px;-webkit-mask-size:42.73px 16.69px,53.67px 44.696px"><img class="fill" src="assets/front/imgRectangle5.png" alt="" draggable="false"></div><div class="abs" style="left:65.13px;top:3.37px;width:11.66px;height:9.94px"><img class="fill" src="assets/front/imgVector1.svg" alt="" draggable="false"></div><div class="abs" style="left:76.79px;top:3.38px;width:9.95px;height:9.93px"><img class="fill" src="assets/front/imgVector2.svg" alt="" draggable="false"></div><div class="abs" style="left:86.72px;top:3.37px;width:11px;height:9.95px"><img class="fill" src="assets/front/imgVector3.svg" alt="" draggable="false"></div></div><div class="mp"><img class="fill" src="assets/front/imgGroup2.svg" alt="" draggable="false"></div></div><div class="vdiv"><span class="ins" style="inset:0 -0.5px"><img class="blk" src="assets/front/imgVector1735.svg" alt="" draggable="false"></span></div><p class="bogo"><span class="b1">BUY 1 GET 1 <br></span><span>+  CASHBACK</span></p></div></header>
+<!-- FOOTER --><footer class="ftr"><div class="abs fn" style="left:10px;top:823px;width:130px;height:14px"><p>*₹199 fitting charges applicable</p></div><div class="abs code" style="left:585px;top:830px;transform:translate(-100%,-50%)"><p>FY26_PROG_016</p></div><div class="abs warr" style="left:317px;top:819px;transform:translateX(-50%)"><span class="wi"><span class="ins" style="inset:0 -3.75% -2.86% -3.75%"><img class="blk" src="assets/front/imgGroup1437258903.svg" alt="" draggable="false"></span></span><p><b>100 Days</b><i> Fitting Warranty</i> on wider lenses &amp; above</p></div></footer>
+    </div>
+  </div>
+  <div class="ctrl" id="ctrl">
+    <div class="seg" role="tablist" aria-label="Card side">
+      <span class="thumb" id="thumb"></span>
+      <button role="tab" id="tab-front" aria-selected="true">Front</button>
+      <button role="tab" id="tab-back" aria-selected="false">Back</button>
+    </div>
+    <p class="hint" id="hint"><span class="arr" aria-hidden="true"></span>Scroll, swipe or use the arrow keys</p>
+  </div>
+  <p class="sr" id="live" aria-live="polite"></p>
+</main>
+<script>
+(() => {
+  const D = 486; // px the columns travel between front and back (design px)
+  const $ = (id) => document.getElementById(id);
+  const root = document.documentElement;
+  const q = new URLSearchParams(location.search);
+  const bare = q.has('bare');
+  if (bare) root.classList.add('bare');
+
+  const el = {
+    track: $('track'), rows: $('rows'), rate: $('rate'), special: $('special'), shade: $('shade'),
+    cview: $('cview'), corr: $('ic-corr'), chev: $('ic-chev'), thumb: $('thumb'), hint: $('hint'),
+    live: $('live'), tf: $('tab-front'), tb: $('tab-back'), ctrl: $('ctrl'),
+  };
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const ss = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+
+  /* ---- fit the 595x842 card to the window ---- */
+  let s = 1;
+  function fit() {
+    if (!bare) {
+      const ch = el.ctrl.offsetHeight + 16;
+      s = clamp(Math.min((innerWidth - 24) / 595, (innerHeight - ch - 32) / 842), 0.35, 2);
+    }
+    root.style.setProperty('--s', s);
+  }
+  addEventListener('resize', fit);
+
+  /* ---- state ---- */
+  const hashBack = location.hash === '#back';
+  let p = q.has('p') ? parseFloat(q.get('p')) : hashBack ? 1 : 0;
+  p = clamp(isNaN(p) ? 0 : p);
+  let goal = Math.round(p), side = goal, vel = 0, drag = false, raf = 0, lastT = 0;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const K = reduce ? 700 : 150;           // spring stiffness
+  const C = 2 * Math.sqrt(K);             // critical damping (no overshoot)
+
+  function paint() {
+    p = clamp(p);
+    el.track.style.transform = `translate3d(${(-p * D).toFixed(3)}px,0,0)`;
+    el.rows.style.transform = `translate3d(0,${(p * 2).toFixed(3)}px,0)`;
+    el.rate.style.transform = `translate3d(0,${(-7 * p).toFixed(3)}px,0)`;
+    const sp = ss(0.3, 0.9, p);
+    el.special.style.opacity = sp.toFixed(3);
+    el.special.style.transform = `translate3d(0,${((1 - sp) * 6).toFixed(2)}px,0)`;
+    el.cview.style.opacity = (1 - ss(0.05, 0.5, p)).toFixed(3);
+    el.chev.style.opacity = ss(0.3, 0.7, p).toFixed(3);
+    el.corr.style.opacity = (1 - ss(0.45, 0.7, p)).toFixed(3);
+    el.shade.style.opacity = (Math.sin(Math.PI * p) * 0.9).toFixed(3);
+    el.thumb.style.transform = `translateX(${(p * 100).toFixed(2)}%)`;
+  }
+
+  function settled() {
+    const now = Math.round(p);
+    if (now !== side || !el.live.dataset.init) {
+      side = now;
+      el.live.dataset.init = '1';
+      el.live.textContent = side ? 'Showing back of card' : 'Showing front of card';
+      el.tf.setAttribute('aria-selected', String(!side));
+      el.tb.setAttribute('aria-selected', String(!!side));
+      try { history.replaceState(null, '', side ? '#back' : location.pathname + location.search); } catch (e) {}
+    }
+    if (side) el.hint.classList.add('off');
+  }
+
+  function tick(t) {
+    const dt = Math.min(0.032, (t - lastT) / 1000 || 0.016);
+    lastT = t;
+    if (!drag) {
+      vel += (K * (goal - p) - C * vel) * dt;
+      p += vel * dt;
+      if (p <= 0 || p >= 1) { p = clamp(p); vel = 0; }
+      if (Math.abs(goal - p) < 0.0004 && Math.abs(vel) < 0.004) { p = goal; vel = 0; }
+    }
+    paint();
+    if (drag || p !== goal || vel) raf = requestAnimationFrame(tick);
+    else { raf = 0; settled(); }
+  }
+  const kick = () => { if (!raf) { lastT = performance.now(); raf = requestAnimationFrame(tick); } };
+  const go = (g) => { goal = g; kick(); };
+
+  /* ---- decide where to land after a gesture ---- */
+  function land(v) {
+    if (Math.abs(v) > 0.9) goal = v > 0 ? 1 : 0;       // flick
+    else goal = side === 0 ? (p > 0.3 ? 1 : 0) : (p < 0.7 ? 0 : 1); // drag past ~30%
+    vel = clamp(v, -6, 6);
+    kick();
+  }
+
+  /* ---- pointer drag (mouse + touch) ---- */
+  let down = false, moved = false, pid = null, sx = 0, sp0 = 0, lx = 0, lt = 0, pv = 0;
+  $('viewer').addEventListener('pointerdown', (e) => {
+    if (e.button > 0 || e.target.closest('.ctrl')) return;
+    down = true; moved = false; pid = e.pointerId; sx = lx = e.clientX; sp0 = p; lt = e.timeStamp; pv = 0;
+  });
+  addEventListener('pointermove', (e) => {
+    if (!down || e.pointerId !== pid) return;
+    const dx = e.clientX - sx;
+    if (!moved && Math.abs(dx) > 5) {
+      moved = true; drag = true; vel = 0; root.classList.add('dragging');
+      try { $('viewer').setPointerCapture(pid); } catch (err) {}
+      kick();
+    }
+    if (moved) {
+      p = clamp(sp0 - dx / (D * s));
+      const dt = (e.timeStamp - lt) / 1000;
+      if (dt > 0) pv = 0.75 * pv + 0.25 * (-(e.clientX - lx) / (D * s) / dt);
+      lx = e.clientX; lt = e.timeStamp;
+    }
+  });
+  const up = (e) => {
+    if (!down || (e && e.pointerId !== pid)) return;
+    down = false;
+    if (!moved) return;
+    drag = false; root.classList.remove('dragging');
+    land(pv);
+  };
+  addEventListener('pointerup', up);
+  addEventListener('pointercancel', up);
+
+  /* ---- wheel / trackpad ---- */
+  let wTimer = 0, wDir = 0, lockUntil = 0, lockDir = 0;
+  addEventListener('wheel', (e) => {
+    if (e.ctrlKey) return;
+    e.preventDefault();
+    let d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
+    const dir = Math.sign(d);
+    if (!dir) return;
+    if (performance.now() < lockUntil && dir === lockDir) return; // ignore trackpad momentum after a snap
+    drag = true; vel = 0; wDir = dir;
+    p = clamp(p + d / (D * s));
+    kick();
+    clearTimeout(wTimer);
+    wTimer = setTimeout(() => {
+      drag = false;
+      goal = wDir > 0 ? (p > 0.08 ? 1 : 0) : (p < 0.92 ? 0 : 1);
+      lockUntil = performance.now() + 500; lockDir = wDir;
+      kick();
+    }, 80);
+  }, { passive: false });
+
+  /* ---- keyboard + buttons ---- */
+  addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key;
+    if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(k) || (k === ' ' && !e.shiftKey) || k === 'End') { e.preventDefault(); go(1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(k) || (k === ' ' && e.shiftKey) || k === 'Home') { e.preventDefault(); go(0); }
+  });
+  el.tf.addEventListener('click', () => go(0));
+  el.tb.addEventListener('click', () => go(1));
+
+  fit();
+  paint();
+  settled();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();
+
+</script>
+</body>
+</html>

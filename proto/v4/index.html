@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Progressive Lenses - Price Card</title>
+<meta name="description" content="Lenskart progressive lens price card: compare seven lenses side by side.">
+<meta name="theme-color" content="#231f20">
+<link rel="preload" href="../assets/fonts/LenskartSans-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/PlusJakartaSans-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="viewport">
+  <main class="stage" id="stage" aria-label="Progressive lenses price card">
+
+    <header class="topbar">
+      <img class="topbar__logo" src="assets/lenskart-wordmark.svg" width="80" height="11" alt="Lenskart">
+      <h1 class="topbar__title">Progressive Lenses</h1>
+      <img class="topbar__gold" src="assets/gold-max-membership.png" width="103" height="33.5" alt="Gold Max membership">
+      <img class="topbar__rule" src="assets/header-divider.svg" width="1" height="40" alt="">
+      <p class="topbar__offer"><span>BUY 1 GET 1</span><br>+&nbsp; CASHBACK</p>
+    </header>
+
+    <aside class="side" aria-label="Lens features">
+      <div class="side__intro">
+        <p class="side__h">Read The Lens</p>
+        <p class="side__sub">Three Viewing Zones</p>
+      </div>
+
+      <div class="zones" aria-label="Lens viewing zones">
+        <img class="zones__lens" src="assets/lens-zones.svg" width="120" height="93" alt="">
+        <span class="zones__n zones__n--1">1</span>
+        <span class="zones__n zones__n--2">2</span>
+        <span class="zones__n zones__n--3">3</span>
+        <img class="zones__dots zones__dots--1" src="assets/zone-line.svg" alt="">
+        <img class="zones__dots zones__dots--2" src="assets/zone-line.svg" alt="">
+        <img class="zones__dots zones__dots--3" src="assets/zone-line.svg" alt="">
+        <span class="zones__l zones__l--1">Distance</span>
+        <span class="zones__l zones__l--2">Intermediate</span>
+        <span class="zones__l zones__l--3">Near / Reading</span>
+      </div>
+
+      <div class="b1g1">
+        <div class="b1g1__in">
+          <p class="b1g1__l1"><b>BUY 1 GET 1</b> <span>for</span></p>
+          <p class="b1g1__l2"><img src="assets/gold.svg" width="33.67" height="9.22" alt="GOLD"><b>Members</b></p>
+        </div>
+      </div>
+
+      <ul class="feat">
+        <li class="feat__row"><img src="assets/icon-smooth.svg" width="24" height="24" alt=""><span>Smooth Power Transition</span></li>
+        <li class="feat__row"><img src="assets/icon-driving.svg" width="24" height="24" alt=""><span>Confident Driving Vision</span></li>
+        <li class="feat__row"><img src="assets/icon-uv.svg" width="24" height="24" alt=""><span>UV 400 Sun Protection</span></li>
+        <li class="feat__row"><img src="assets/icon-blue.svg" width="24" height="24" alt=""><span>Blue Light Block</span></li>
+        <li class="feat__row"><img src="assets/icon-smudge.svg" width="24" height="24" alt=""><span>Smudge Resistant</span></li>
+        <li class="feat__row"><img src="assets/icon-scratch.svg" width="24" height="24" alt=""><span>Scratch Resistant</span></li>
+        <li class="feat__row"><img src="assets/icon-antiglare.png" width="24" height="24" alt=""><span>Anti-Glare</span></li>
+        <li class="feat__row"><img src="assets/icon-photochromatic.svg" width="24" height="24" alt=""><span>UVPhotochromatic Coating</span></li>
+      </ul>
+
+      <div class="legend" aria-label="Legend">
+        <span class="legend__i"><img src="assets/legend-tick.svg" width="10" height="7.14" alt="">Included</span>
+        <span class="legend__i"><img src="assets/legend-tick.svg" width="10" height="7.14" alt=""><img src="assets/legend-tick.svg" width="10" height="7.14" alt="">Enhanced</span>
+      </div>
+    </aside>
+
+    <section class="rail" aria-label="Lens price cards. Scroll sideways to see all seven.">
+      <div class="scroller" id="scroller" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Seven lens cards">
+        <div class="track" id="track"></div>
+      </div>
+      <button class="nav nav--prev" id="prev" type="button" aria-label="Show previous lenses" hidden>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="nav nav--next" id="next" type="button" aria-label="Show more lenses">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </section>
+
+    <footer class="foot">
+      <p class="foot__fit">*₹199 fitting charges applicable</p>
+      <p class="foot__code">FY26_PROG_022</p>
+    </footer>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

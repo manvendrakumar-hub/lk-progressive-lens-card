@@ -1,0 +1,20 @@
+/* Corridor motion component. See corridor.js. */
+.cx{position:relative;overflow:hidden;background:#dbe7f1;isolation:isolate;contain:paint}
+.cx-layer{position:absolute;inset:0;overflow:hidden}
+.cx-img{position:absolute;top:0;left:50%;max-width:none;pointer-events:none;user-select:none;-webkit-user-drag:none;
+  transform:translate3d(calc(-50% + var(--cx-pan,0px)),0,0);will-change:transform}
+.cx-l-sharp{-webkit-clip-path:var(--cx-clip-sharp);clip-path:var(--cx-clip-sharp)}
+.cx-l-mid{-webkit-clip-path:var(--cx-clip-mid);clip-path:var(--cx-clip-mid)}
+.cx-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.0),rgba(0,0,40,.0))}
+.cx-guide{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.cx-outline{fill:none;stroke:#ff5e48;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:7 6;vector-effect:non-scaling-stroke;animation:cx-dash 1.4s linear infinite}
+.cx-outline-glow{fill:rgba(255,255,255,.10);stroke:none}
+@keyframes cx-dash{to{stroke-dashoffset:-26}}
+.cx-arrow{position:absolute;left:50%;top:50%;height:0;pointer-events:none;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;animation:cx-wig 2.6s ease-in-out infinite}
+.cx-arrow i{display:block;height:2px;width:100%;background:rgba(255,255,255,.92);border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,66,.18)}
+.cx-arrow::before,.cx-arrow::after{content:"";position:absolute;top:50%;width:9px;height:9px;border-top:2px solid #fff;border-left:2px solid #fff;filter:drop-shadow(0 0 1px rgba(0,0,66,.45))}
+.cx-arrow::before{left:0;transform:translateY(-50%) rotate(-45deg)}
+.cx-arrow::after{right:0;transform:translateY(-50%) rotate(135deg)}
+@keyframes cx-wig{0%,100%{transform:translate(-50%,-50%) scaleX(1)}35%{transform:translate(-50%,-50%) scaleX(1.07)}70%{transform:translate(-50%,-50%) scaleX(.94)}}
+.cx-chip{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);padding:4px 10px;border-radius:999px;font:700 11px/1 "Lenskart Sans",system-ui,sans-serif;letter-spacing:.02em;color:#000042;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);white-space:nowrap;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.cx-outline,.cx-arrow{animation:none}}

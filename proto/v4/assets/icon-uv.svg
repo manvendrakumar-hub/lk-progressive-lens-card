@@ -1,0 +1,38 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Price Card">
+<g id="Side Panel">
+<g id="Lens Features">
+<g id="Frame 2147238359">
+<g id="3" clip-path="url(#clip0_1331_12502)">
+<g id="Group 1437258944">
+<path id="Vector 1749" d="M0.902499 13.6132C2.87043 18.7199 5.27043 20.1599 9.0625 21.2933C7.1425 15.5333 8.63043 14.5731 8.15043 12.6531C7.76643 11.1171 3.83043 8.97313 0.470429 9.77313L0.902499 13.6132Z" fill="white" fill-opacity="0.6"/>
+<path id="Vector 1744" d="M22.5984 13.9199C21.1584 20.16 16.9984 21.76 14.4384 21.6C16.3584 15.8399 14.8704 14.8797 15.3504 12.9597C15.7344 11.4237 19.6704 9.27977 23.0304 10.0798L22.5984 13.9199Z" fill="white" fill-opacity="0.6"/>
+<path id="Vector 1719" d="M5.08996 3.82598C-0.468649 5.34197 0.150911 10.7722 1.0819 13.9776C3.92411 23.7683 15.4663 21.591 17.7232 20.5651C21.1973 18.986 23.7239 13.301 22.8744 7.66098C22.1307 2.72297 12.0382 1.931 5.08996 3.82598Z" fill="white" fill-opacity="0.2" stroke="#333368" stroke-width="0.884324"/>
+<g id="Group 1437258695">
+<path id="Vector 1723" d="M-0.489624 4.7998L11.0318 10.7384L-0.489624 19.6463" stroke="url(#paint0_linear_1331_12502)" stroke-width="0.96" stroke-linecap="round"/>
+<path id="Vector 1724" d="M-0.489624 8.19336L11.0318 14.132L-0.489624 23.0399" stroke="url(#paint1_linear_1331_12502)" stroke-width="0.96" stroke-linecap="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1331_12502" x1="2.87079" y1="5.64818" x2="2.87079" y2="17.9496" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0"/>
+<stop offset="0.329783" stop-color="#333368"/>
+<stop offset="0.576174" stop-color="#333368"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_1331_12502" x1="2.87079" y1="9.04173" x2="2.87079" y2="21.3431" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0"/>
+<stop offset="0.329783" stop-color="#333368"/>
+<stop offset="0.576174" stop-color="#333368"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_1331_12502">
+<rect width="24" height="24" fill="white" transform="matrix(0 1 -1 0 24 0)"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,36 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Price Card">
+<g id="Side Panel">
+<g id="Lens Features">
+<g id="Frame 2147238373">
+<g id="3">
+<g id="Group 1437258943">
+<path id="Vector 1749" d="M0.902499 13.6132C2.87043 18.7199 5.27043 20.1599 9.0625 21.2933C7.1425 15.5333 8.63043 14.5731 8.15043 12.6531C7.76643 11.1171 3.83043 8.97313 0.470429 9.77313L0.902499 13.6132Z" fill="white" fill-opacity="0.6"/>
+<path id="Vector 1744" d="M22.5984 13.9199C21.1584 20.16 16.9984 21.76 14.4384 21.6C16.3584 15.8399 14.8704 14.8797 15.3504 12.9597C15.7344 11.4237 19.6704 9.27977 23.0304 10.0798L22.5984 13.9199Z" fill="white" fill-opacity="0.6"/>
+<path id="Vector 1719" d="M5.08996 3.82598C-0.468649 5.34197 0.150911 10.7722 1.0819 13.9776C3.92411 23.7683 15.4663 21.591 17.7232 20.5651C21.1973 18.986 23.7239 13.301 22.8744 7.66098C22.1307 2.72297 12.0382 1.931 5.08996 3.82598Z" fill="white" fill-opacity="0.2" stroke="#333368" stroke-width="0.884324"/>
+<g id="Group 1437258838">
+<path id="Vector 1750" d="M5.27039 20.1598L10.0704 5.75977" stroke="url(#paint0_linear_1331_12502)" stroke-width="0.96"/>
+<path id="Vector 1751" d="M18.7104 20.1598L13.9104 5.75977" stroke="url(#paint1_linear_1331_12502)" stroke-width="0.96"/>
+<path id="Vector 1752" d="M11.5104 6.23999L11.9904 21.12" stroke="url(#paint2_linear_1331_12502)" stroke-width="0.96" stroke-dasharray="1.92 1.92"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1331_12502" x1="7.67039" y1="5.75977" x2="7.67039" y2="20.1598" gradientUnits="userSpaceOnUse">
+<stop stop-color="#666666" stop-opacity="0"/>
+<stop offset="1" stop-color="#333368"/>
+</linearGradient>
+<linearGradient id="paint1_linear_1331_12502" x1="16.3104" y1="5.75977" x2="16.3104" y2="20.1598" gradientUnits="userSpaceOnUse">
+<stop stop-color="#666666" stop-opacity="0"/>
+<stop offset="1" stop-color="#333368"/>
+</linearGradient>
+<linearGradient id="paint2_linear_1331_12502" x1="12.0101" y1="6.22387" x2="12.4901" y2="21.1039" gradientUnits="userSpaceOnUse">
+<stop stop-color="#666666" stop-opacity="0"/>
+<stop offset="1" stop-color="#333368"/>
+</linearGradient>
+</defs>
+</svg>
